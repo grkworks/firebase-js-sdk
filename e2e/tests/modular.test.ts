@@ -86,7 +86,8 @@ import {
   StorageReference,
   deleteObject
 } from 'firebase/storage';
-import { getGenerativeModel, getVertexAI, VertexAI } from 'firebase/vertexai';
+import { getGenerativeModel as _getGenerativeModel, getVertexAI, VertexAI } from 'firebase/vertexai';
+import { getGenerativeModel, getAI, AI } from 'firebase/ai';
 import { getDataConnect, DataConnect } from 'firebase/data-connect';
 import { config, testAccount } from '../firebase-config';
 import 'jest';
@@ -265,7 +266,7 @@ describe('MODULAR', () => {
       // @ts-ignore Stub missing browser APIs that FCM depends on
       window.indexedDB = { open: () => Promise.resolve() };
       // @ts-ignore Stub missing browser APIs that FCM depends on
-      navigator.serviceWorker = { addEventListener: () => {} };
+      navigator.serviceWorker = { addEventListener: () => { } };
       getMessaging(app);
       // @ts-ignore
       delete window.indexedDB;
@@ -280,7 +281,7 @@ describe('MODULAR', () => {
       analyticsIsSupported();
     });
     it('getAnalytics()', () => {
-      const warn = jest.spyOn(console, 'warn').mockImplementationOnce(() => {});
+      const warn = jest.spyOn(console, 'warn').mockImplementationOnce(() => { });
       analytics = getAnalytics(app);
       expect(warn).toHaveBeenCalledWith(
         expect.stringMatching('@firebase/analytics'),
@@ -314,6 +315,19 @@ describe('MODULAR', () => {
     });
     it('getGenerativeModel() and countTokens()', async () => {
       const model = getGenerativeModel(vertexAI, { model: 'gemini-1.5-flash' });
+      expect(model.model).toMatch(/gemini-1.5-flash$/);
+      const result = await model.countTokens('abcdefg');
+      expect(result.totalTokens).toBeTruthy;
+    });
+  });
+
+  describe('AI', () => {
+    let ai: AI;
+    it('getAI()', () => {
+      ai = getAI(app);
+    });
+    it('getGenerativeModel() and countTokens()', async () => {
+      const model = getGenerativeModel(ai, { model: 'gemini-1.5-flash' });
       expect(model.model).toMatch(/gemini-1.5-flash$/);
       const result = await model.countTokens('abcdefg');
       expect(result.totalTokens).toBeTruthy;
