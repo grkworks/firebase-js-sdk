@@ -45,6 +45,7 @@ export class RequestUrl {
   ) { }
   toString(): string {
     const url = new URL(this.baseUrl); // Throws if the URL is invalid
+    // url.pathname = `/${this.apiVersion}/${this.modelPath}:${this.task}`;
     url.pathname = `/${this.apiVersion}/${this.modelPath}:${this.task}`;
     url.search = this.queryParams.toString();
     return url.toString();
@@ -60,7 +61,8 @@ export class RequestUrl {
 
   private get modelPath(): string {
     if (this.apiSettings.backend instanceof GoogleAIBackend) {
-      return `projects/${this.apiSettings.project}/${this.model}`;
+      // return `projects/${this.apiSettings.project}/${this.model}`;
+      return `${this.model}`;
     } else if (this.apiSettings.backend instanceof VertexAIBackend) {
       return `projects/${this.apiSettings.project}/locations/${this.apiSettings.backend.location}/${this.model}`;
     } else {
@@ -76,6 +78,9 @@ export class RequestUrl {
     if (this.stream) {
       params.set('alt', 'sse');
     }
+
+    params.set('$outputDefaults', 'true');
+    params.set('key', 'AIzaSyCUfxtbAJpmqSD7ZsDqQLP52Q0WeAgctmk');
 
     return params;
   }

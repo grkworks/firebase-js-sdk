@@ -198,7 +198,7 @@ export declare interface FunctionDeclaration {
 
 /**
  * TODO(dlarocque)
- * 
+ *
  * @public
  */
 export declare interface GoogleSearchTool {
@@ -207,10 +207,10 @@ export declare interface GoogleSearchTool {
 
 /**
  * TODO(dlarocque)
- * 
+ *
  * @public
  */
-export declare interface GoogleSearch { }
+export declare interface GoogleSearch {}
 
 /**
  * A `FunctionDeclarationsTool` is a piece of code that enables the system to

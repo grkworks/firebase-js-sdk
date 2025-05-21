@@ -172,7 +172,7 @@ export interface Citation {
 
 /**
  * Metadata returned to client when grounding is enabled.
- * 
+ *
  * @public
  */
 export interface GroundingMetadata {
@@ -201,9 +201,12 @@ export interface GroundingMetadata {
   groundingAttributions: GroundingAttribution[];
 }
 
+let x: HTMLDivElement = document.createElement('div');
+let s: ShadowRoot = x.attachShadow({ mode: 'open' })
+
 /**
  * Google search entry point.
- * 
+ *
  * @public
  */
 export interface SearchEntrypoint {
@@ -212,14 +215,23 @@ export interface SearchEntrypoint {
    */
   renderedContent: string;
   /**
+   * attachShadow({mode: 'open'}).innerHTML = renderedContent
+   * https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM
+   * - prevents CSS conflicts
+   * - "black box" structure that can't be modified by accident (very good in this context)
+   * 
+   * this could be a helper method createEncapsulatedElement(htmlContent): HTMLDivElement
+   */
+  renderedContentElement: HTMLDivElement; // 
+  /**
    * Base64-encoded JSON array of <search term, search url>
    */
-  sdkBlob: string;
+  sdkBlob?: string; // can be an empty string which is omitted since it's a default
 }
 
 /**
  * A grounding chunk.
- * 
+ *
  * @public
  */
 export interface GroundingChunk {
@@ -231,14 +243,14 @@ export interface GroundingChunk {
 
 /**
  * A grounding reference from the web.
- * 
+ *
  * @public
  */
 export interface WebGroundingChunk {
   /**
    * The URI of the reference. Always contains the `vertexaisearch` subdomain, for example;
    * `https://vertexaisearch.cloud.google.com/grounding-api-redirect/AWhgh4y9L4oeNGWCat...`.
-   * 
+   *
    * The URI remains accessible for 30 days after the grounding result is generated.
    */
   uri?: string;
@@ -250,7 +262,7 @@ export interface WebGroundingChunk {
 
 /**
  * Grounding support.
- * 
+ *
  * @public
  */
 export interface GroundingSupport {
@@ -259,8 +271,8 @@ export interface GroundingSupport {
    */
   segment?: Segment;
   /**
-   * A list of indices into 'groundingChunk' specifying the citations associated with the claim.
-   * For example, `[1,3,4]` means that `groundingChunk[1]`, `groundingChunk[3]`, and `groundingChunk[4]` 
+   * A list of indices into `groundingChunk` specifying the citations associated with the claim.
+   * For example, `[1,3,4]` means that `groundingChunk[1]`, `groundingChunk[3]`, and `groundingChunk[4]`
    * are the retrieved content to the attributed claim.
    */
   groundingChunkIndices?: number[];
@@ -273,7 +285,7 @@ export interface GroundingSupport {
 
 /**
  * Segment of the content
- * 
+ *
  * @public
  */
 export interface Segment {

@@ -485,6 +485,16 @@ export interface GoogleAIGenerateContentResponse {
     usageMetadata?: UsageMetadata;
 }
 
+// @public
+export interface GoogleSearch {
+}
+
+// @public
+export interface GoogleSearchTool {
+    // (undocumented)
+    googleSearch: GoogleSearch;
+}
+
 // @public @deprecated (undocumented)
 export interface GroundingAttribution {
     // (undocumented)
@@ -498,13 +508,27 @@ export interface GroundingAttribution {
 }
 
 // @public
+export interface GroundingChunk {
+    web?: WebGroundingChunk;
+}
+
+// @public
 export interface GroundingMetadata {
     // @deprecated (undocumented)
     groundingAttributions: GroundingAttribution[];
+    groundingChunks?: GroundingChunk[];
+    groundingSupports?: GroundingSupport[];
     // (undocumented)
     retrievalQueries?: string[];
-    // (undocumented)
+    searchEntryPoint?: SearchEntrypoint;
     webSearchQueries?: string[];
+}
+
+// @public
+export interface GroundingSupport {
+    confidenceScores?: number[];
+    groundingChunkIndices?: number[];
+    segment?: Segment;
 }
 
 // @public
@@ -847,6 +871,20 @@ export enum SchemaType {
     STRING = "string"
 }
 
+// @public
+export interface SearchEntrypoint {
+    renderedContent: string;
+    sdkBlob?: string;
+}
+
+// @public
+export interface Segment {
+    endIndex: number;
+    partIndex: number;
+    startIndex: number;
+    text: string;
+}
+
 // @public (undocumented)
 export interface Segment {
     // (undocumented)
@@ -891,7 +929,7 @@ export interface TextPart {
 }
 
 // @public
-export type Tool = FunctionDeclarationsTool;
+export type Tool = FunctionDeclarationsTool | GoogleSearchTool;
 
 // @public
 export interface ToolConfig {
@@ -949,6 +987,12 @@ export interface WebAttribution {
     title: string;
     // (undocumented)
     uri: string;
+}
+
+// @public
+export interface WebGroundingChunk {
+    title?: string;
+    uri?: string;
 }
 
 

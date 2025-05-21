@@ -23,8 +23,11 @@ export interface GroundingMetadata
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [groundingAttributions](./ai.groundingmetadata.md#groundingmetadatagroundingattributions) | [GroundingAttribution](./ai.groundingattribution.md#groundingattribution_interface)<!-- -->\[\] |  |
+|  [groundingChunks](./ai.groundingmetadata.md#groundingmetadatagroundingchunks) | [GroundingChunk](./ai.groundingchunk.md#groundingchunk_interface)<!-- -->\[\] | List of supporting references retrieved from the specified grounding source. |
+|  [groundingSupports](./ai.groundingmetadata.md#groundingmetadatagroundingsupports) | [GroundingSupport](./ai.groundingsupport.md#groundingsupport_interface)<!-- -->\[\] | List of grounding support. |
 |  [retrievalQueries](./ai.groundingmetadata.md#groundingmetadataretrievalqueries) | string\[\] |  |
-|  [webSearchQueries](./ai.groundingmetadata.md#groundingmetadatawebsearchqueries) | string\[\] |  |
+|  [searchEntryPoint](./ai.groundingmetadata.md#groundingmetadatasearchentrypoint) | [SearchEntrypoint](./ai.searchentrypoint.md#searchentrypoint_interface) | Google search entry for the following web searches. |
+|  [webSearchQueries](./ai.groundingmetadata.md#groundingmetadatawebsearchqueries) | string\[\] | Web search queries for the following-up web search. |
 
 ## GroundingMetadata.groundingAttributions
 
@@ -38,6 +41,26 @@ export interface GroundingMetadata
 groundingAttributions: GroundingAttribution[];
 ```
 
+## GroundingMetadata.groundingChunks
+
+List of supporting references retrieved from the specified grounding source.
+
+<b>Signature:</b>
+
+```typescript
+groundingChunks?: GroundingChunk[];
+```
+
+## GroundingMetadata.groundingSupports
+
+List of grounding support.
+
+<b>Signature:</b>
+
+```typescript
+groundingSupports?: GroundingSupport[];
+```
+
 ## GroundingMetadata.retrievalQueries
 
 <b>Signature:</b>
@@ -46,7 +69,19 @@ groundingAttributions: GroundingAttribution[];
 retrievalQueries?: string[];
 ```
 
+## GroundingMetadata.searchEntryPoint
+
+Google search entry for the following web searches.
+
+<b>Signature:</b>
+
+```typescript
+searchEntryPoint?: SearchEntrypoint;
+```
+
 ## GroundingMetadata.webSearchQueries
+
+Web search queries for the following-up web search.
 
 <b>Signature:</b>
 

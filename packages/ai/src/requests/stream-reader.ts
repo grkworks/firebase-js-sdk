@@ -222,7 +222,7 @@ export function aggregateResponses(
               throw new AIError(
                 AIErrorCode.INVALID_CONTENT,
                 'Part should have at least one property, but there are none. This is likely caused ' +
-                'by a malformed response from the backend.'
+                  'by a malformed response from the backend.'
               );
             }
             aggregatedResponse.candidates[i].content.parts.push(

@@ -10,6 +10,7 @@ https://github.com/firebase/firebase-js-sdk
 {% endcomment %}
 
 # Segment interface
+Segment of the content
 
 <b>Signature:</b>
 
@@ -21,11 +22,14 @@ export interface Segment
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [endIndex](./ai.segment.md#segmentendindex) | number |  |
-|  [partIndex](./ai.segment.md#segmentpartindex) | number |  |
-|  [startIndex](./ai.segment.md#segmentstartindex) | number |  |
+|  [endIndex](./ai.segment.md#segmentendindex) | number | End index in the given part, measured in bytes. Offset from the start of the part, inclusive starting at 0. |
+|  [partIndex](./ai.segment.md#segmentpartindex) | number | The index of a part object within its parent <code>Content</code> object. |
+|  [startIndex](./ai.segment.md#segmentstartindex) | number | Start index in the given part, measured in bytes. Offset from the start of the part, inclusive starting at 0. |
+|  [text](./ai.segment.md#segmenttext) | string | The text corresponding to the segment from the response. |
 
 ## Segment.endIndex
+
+End index in the given part, measured in bytes. Offset from the start of the part, inclusive starting at 0.
 
 <b>Signature:</b>
 
@@ -35,6 +39,8 @@ endIndex: number;
 
 ## Segment.partIndex
 
+The index of a part object within its parent `Content` object.
+
 <b>Signature:</b>
 
 ```typescript
@@ -43,8 +49,20 @@ partIndex: number;
 
 ## Segment.startIndex
 
+Start index in the given part, measured in bytes. Offset from the start of the part, inclusive starting at 0.
+
 <b>Signature:</b>
 
 ```typescript
 startIndex: number;
+```
+
+## Segment.text
+
+The text corresponding to the segment from the response.
+
+<b>Signature:</b>
+
+```typescript
+text: string;
 ```
