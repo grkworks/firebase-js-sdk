@@ -24,12 +24,7 @@ import { _isFirebaseServerApp } from '@firebase/app';
 /**
  * Base class for Firebase AI model APIs.
  *
-<<<<<<< HEAD:packages/vertexai/src/models/ai-model.ts
- * Instances of this class are associated with a specific Firebase AI backend
- * (either the Vertex AI Gemini API or the Gemini Developer API via Google AI)
-=======
  * Instances of this class are associated with a specific Firebase AI {@link Backend}
->>>>>>> main:packages/ai/src/models/ai-model.ts
  * and provide methods for interacting with the configured generative model.
  *
  * @public

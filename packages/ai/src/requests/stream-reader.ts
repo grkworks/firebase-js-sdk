@@ -190,6 +190,8 @@ export function aggregateResponses(
           candidate.finishMessage;
         aggregatedResponse.candidates[i].safetyRatings =
           candidate.safetyRatings;
+        aggregatedResponse.candidates[i].groundingMetadata =
+          candidate.groundingMetadata;
 
         /**
          * Candidates should always have content and parts, but this handles
@@ -220,7 +222,7 @@ export function aggregateResponses(
               throw new AIError(
                 AIErrorCode.INVALID_CONTENT,
                 'Part should have at least one property, but there are none. This is likely caused ' +
-                  'by a malformed response from the backend.'
+                'by a malformed response from the backend.'
               );
             }
             aggregatedResponse.candidates[i].content.parts.push(

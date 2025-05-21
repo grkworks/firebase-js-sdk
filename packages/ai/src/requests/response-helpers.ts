@@ -23,12 +23,8 @@ import {
   GenerateContentResponse,
   ImagenGCSImage,
   ImagenInlineImage,
-<<<<<<< HEAD:packages/vertexai/src/requests/response-helpers.ts
-  AIErrorCode
-=======
   AIErrorCode,
   InlineDataPart
->>>>>>> main:packages/ai/src/requests/response-helpers.ts
 } from '../types';
 import { AIError } from '../errors';
 import { logger } from '../logger';
@@ -67,8 +63,8 @@ export function addHelpers(
       if (response.candidates.length > 1) {
         logger.warn(
           `This response had ${response.candidates.length} ` +
-            `candidates. Returning text from the first candidate only. ` +
-            `Access response.candidates directly to use the other candidates.`
+          `candidates. Returning text from the first candidate only. ` +
+          `Access response.candidates directly to use the other candidates.`
         );
       }
       if (hadBadFinishReason(response.candidates[0])) {
@@ -101,8 +97,8 @@ export function addHelpers(
       if (response.candidates.length > 1) {
         logger.warn(
           `This response had ${response.candidates.length} ` +
-            `candidates. Returning data from the first candidate only. ` +
-            `Access response.candidates directly to use the other candidates.`
+          `candidates. Returning data from the first candidate only. ` +
+          `Access response.candidates directly to use the other candidates.`
         );
       }
       if (hadBadFinishReason(response.candidates[0])) {
@@ -133,8 +129,8 @@ export function addHelpers(
       if (response.candidates.length > 1) {
         logger.warn(
           `This response had ${response.candidates.length} ` +
-            `candidates. Returning function calls from the first candidate only. ` +
-            `Access response.candidates directly to use the other candidates.`
+          `candidates. Returning function calls from the first candidate only. ` +
+          `Access response.candidates directly to use the other candidates.`
         );
       }
       if (hadBadFinishReason(response.candidates[0])) {

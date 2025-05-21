@@ -165,7 +165,7 @@ export interface RequestOptions {
  * Defines a tool that model can call to access external knowledge.
  * @public
  */
-export declare type Tool = FunctionDeclarationsTool;
+export declare type Tool = FunctionDeclarationsTool | GoogleSearchTool;
 
 /**
  * Structured representation of a function declaration as defined by the
@@ -195,6 +195,22 @@ export declare interface FunctionDeclaration {
    */
   parameters?: ObjectSchemaInterface;
 }
+
+/**
+ * TODO(dlarocque)
+ * 
+ * @public
+ */
+export declare interface GoogleSearchTool {
+  googleSearch: GoogleSearch;
+}
+
+/**
+ * TODO(dlarocque)
+ * 
+ * @public
+ */
+export declare interface GoogleSearch { }
 
 /**
  * A `FunctionDeclarationsTool` is a piece of code that enables the system to

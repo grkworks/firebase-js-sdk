@@ -172,15 +172,129 @@ export interface Citation {
 
 /**
  * Metadata returned to client when grounding is enabled.
+ * 
  * @public
  */
 export interface GroundingMetadata {
+  /**
+   * Google search entry for the following web searches.
+   */
+  searchEntryPoint?: SearchEntrypoint;
+  /**
+   * List of supporting references retrieved from the specified grounding source.
+   */
+  groundingChunks?: GroundingChunk[];
+  /**
+   * List of grounding support.
+   */
+  groundingSupports?: GroundingSupport[];
+  /**
+   * Web search queries for the following-up web search.
+   */
   webSearchQueries?: string[];
+
+  // deprecated
   retrievalQueries?: string[];
   /**
    * @deprecated
    */
   groundingAttributions: GroundingAttribution[];
+}
+
+/**
+ * Google search entry point.
+ * 
+ * @public
+ */
+export interface SearchEntrypoint {
+  /**
+   * Web content snippet that can be embedded in a web page.
+   */
+  renderedContent: string;
+  /**
+   * Base64-encoded JSON array of <search term, search url>
+   */
+  sdkBlob: string;
+}
+
+/**
+ * A grounding chunk.
+ * 
+ * @public
+ */
+export interface GroundingChunk {
+  /**
+   * A grounding chunk from the web.
+   */
+  web?: WebGroundingChunk;
+}
+
+/**
+ * A grounding reference from the web.
+ * 
+ * @public
+ */
+export interface WebGroundingChunk {
+  /**
+   * The URI of the reference. Always contains the `vertexaisearch` subdomain, for example;
+   * `https://vertexaisearch.cloud.google.com/grounding-api-redirect/AWhgh4y9L4oeNGWCat...`.
+   * 
+   * The URI remains accessible for 30 days after the grounding result is generated.
+   */
+  uri?: string;
+  /**
+   * The title of the web page.
+   */
+  title?: string;
+}
+
+/**
+ * Grounding support.
+ * 
+ * @public
+ */
+export interface GroundingSupport {
+  /**
+   * Segment of the content that this support is associated with.
+   */
+  segment?: Segment;
+  /**
+   * A list of indices into 'groundingChunk' specifying the citations associated with the claim.
+   * For example, `[1,3,4]` means that `groundingChunk[1]`, `groundingChunk[3]`, and `groundingChunk[4]` 
+   * are the retrieved content to the attributed claim.
+   */
+  groundingChunkIndices?: number[];
+  /**
+   * Confidence score of the supporting references. Ranges from 0 to 1, where 1 is the most confident.
+   * This list must have the same size has the `groundingChunkIndices`.
+   */
+  confidenceScores?: number[];
+}
+
+/**
+ * Segment of the content
+ * 
+ * @public
+ */
+export interface Segment {
+  /**
+   * The index of a part object within its parent `Content` object.
+   */
+  partIndex: number;
+  /**
+   * Start index in the given part, measured in bytes. Offset from the start of the part, inclusive
+   * starting at 0.
+   */
+  startIndex: number;
+  /**
+   * End index in the given part, measured in bytes. Offset from the start of the part, inclusive
+   * starting at 0.
+   */
+  endIndex: number;
+  /**
+   * The text corresponding to the segment from the response.
+   */
+  text: string;
 }
 
 /**
