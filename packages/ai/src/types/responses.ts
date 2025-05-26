@@ -225,6 +225,8 @@ export interface SearchEntrypoint {
   renderedContentElement: HTMLDivElement; // 
   /**
    * Base64-encoded JSON array of <search term, search url>
+   * 
+   * This seems to always come back as undefined when using the Gemini Developer API.
    */
   sdkBlob?: string; // can be an empty string which is omitted since it's a default
 }
@@ -258,6 +260,13 @@ export interface WebGroundingChunk {
    * The title of the web page.
    */
   title?: string;
+  /**
+   * Domain of the original URI, before the `vertexaisearch` subdomain was added.
+   * 
+   * This property is only supported in the Vertex AI Gemini API ({@link VertexAIBackend}).
+   * When using the Gemini Developer API ({@link GoogleAIBackend}), this property will be undefined. 
+   */
+  domain?: string;
 }
 
 /**
