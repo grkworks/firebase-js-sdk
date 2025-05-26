@@ -874,6 +874,7 @@ export enum SchemaType {
 // @public
 export interface SearchEntrypoint {
     renderedContent: string;
+    renderedContentElement: HTMLDivElement;
     sdkBlob?: string;
 }
 

@@ -23,7 +23,7 @@ export interface GroundingSupport
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [confidenceScores](./ai.groundingsupport.md#groundingsupportconfidencescores) | number\[\] | Confidence score of the supporting references. Ranges from 0 to 1, where 1 is the most confident. This list must have the same size has the <code>groundingChunkIndices</code>. |
-|  [groundingChunkIndices](./ai.groundingsupport.md#groundingsupportgroundingchunkindices) | number\[\] | A list of indices into 'groundingChunk' specifying the citations associated with the claim. For example, <code>[1,3,4]</code> means that <code>groundingChunk[1]</code>, <code>groundingChunk[3]</code>, and <code>groundingChunk[4]</code> are the retrieved content to the attributed claim. |
+|  [groundingChunkIndices](./ai.groundingsupport.md#groundingsupportgroundingchunkindices) | number\[\] | A list of indices into <code>groundingChunk</code> specifying the citations associated with the claim. For example, <code>[1,3,4]</code> means that <code>groundingChunk[1]</code>, <code>groundingChunk[3]</code>, and <code>groundingChunk[4]</code> are the retrieved content to the attributed claim. |
 |  [segment](./ai.groundingsupport.md#groundingsupportsegment) | [Segment](./ai.segment.md#segment_interface) | Segment of the content that this support is associated with. |
 
 ## GroundingSupport.confidenceScores
@@ -38,7 +38,7 @@ confidenceScores?: number[];
 
 ## GroundingSupport.groundingChunkIndices
 
-A list of indices into 'groundingChunk' specifying the citations associated with the claim. For example, `[1,3,4]` means that `groundingChunk[1]`<!-- -->, `groundingChunk[3]`<!-- -->, and `groundingChunk[4]` are the retrieved content to the attributed claim.
+A list of indices into `groundingChunk` specifying the citations associated with the claim. For example, `[1,3,4]` means that `groundingChunk[1]`<!-- -->, `groundingChunk[3]`<!-- -->, and `groundingChunk[4]` are the retrieved content to the attributed claim.
 
 <b>Signature:</b>
 
