@@ -491,7 +491,6 @@ export interface GoogleSearch {
 
 // @public
 export interface GoogleSearchTool {
-    // (undocumented)
     googleSearch: GoogleSearch;
 }
 
@@ -518,7 +517,7 @@ export interface GroundingMetadata {
     groundingAttributions: GroundingAttribution[];
     groundingChunks?: GroundingChunk[];
     groundingSupports?: GroundingSupport[];
-    // (undocumented)
+    // @deprecated (undocumented)
     retrievalQueries?: string[];
     searchEntryPoint?: SearchEntrypoint;
     webSearchQueries?: string[];
@@ -874,8 +873,6 @@ export enum SchemaType {
 // @public
 export interface SearchEntrypoint {
     renderedContent: string;
-    renderedContentElement: HTMLDivElement;
-    sdkBlob?: string;
 }
 
 // @public
@@ -992,6 +989,7 @@ export interface WebAttribution {
 
 // @public
 export interface WebGroundingChunk {
+    domain?: string;
     title?: string;
     uri?: string;
 }

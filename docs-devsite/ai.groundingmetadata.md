@@ -23,11 +23,11 @@ export interface GroundingMetadata
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [groundingAttributions](./ai.groundingmetadata.md#groundingmetadatagroundingattributions) | [GroundingAttribution](./ai.groundingattribution.md#groundingattribution_interface)<!-- -->\[\] |  |
-|  [groundingChunks](./ai.groundingmetadata.md#groundingmetadatagroundingchunks) | [GroundingChunk](./ai.groundingchunk.md#groundingchunk_interface)<!-- -->\[\] | List of supporting references retrieved from the specified grounding source. |
-|  [groundingSupports](./ai.groundingmetadata.md#groundingmetadatagroundingsupports) | [GroundingSupport](./ai.groundingsupport.md#groundingsupport_interface)<!-- -->\[\] | List of grounding support. |
+|  [groundingChunks](./ai.groundingmetadata.md#groundingmetadatagroundingchunks) | [GroundingChunk](./ai.groundingchunk.md#groundingchunk_interface)<!-- -->\[\] | A list of [GroundingChunk](./ai.groundingchunk.md#groundingchunk_interface) objects. Each chunk represents a piece of retrieved content (e.g. from a web page). that the model used to ground its response. |
+|  [groundingSupports](./ai.groundingmetadata.md#groundingmetadatagroundingsupports) | [GroundingSupport](./ai.groundingsupport.md#groundingsupport_interface)<!-- -->\[\] | A list of [GroundingSupport](./ai.groundingsupport.md#groundingsupport_interface) objects. Each object details how specific segments of the model's response are supported by the <code>groundingChunks</code>. |
 |  [retrievalQueries](./ai.groundingmetadata.md#groundingmetadataretrievalqueries) | string\[\] |  |
-|  [searchEntryPoint](./ai.groundingmetadata.md#groundingmetadatasearchentrypoint) | [SearchEntrypoint](./ai.searchentrypoint.md#searchentrypoint_interface) | Google search entry for the following web searches. |
-|  [webSearchQueries](./ai.groundingmetadata.md#groundingmetadatawebsearchqueries) | string\[\] | Web search queries for the following-up web search. |
+|  [searchEntryPoint](./ai.groundingmetadata.md#groundingmetadatasearchentrypoint) | [SearchEntrypoint](./ai.searchentrypoint.md#searchentrypoint_interface) | Google search entry for the following web searches. An HTML/CSS snippet that can be embedded in a web page to display a Google Search Entry point for follow-up web searches related to the model's response. |
+|  [webSearchQueries](./ai.groundingmetadata.md#groundingmetadatawebsearchqueries) | string\[\] | A list of web search queries that the model performed to gather the grounding information. These can be used to allow users to explore the search results themselves. |
 
 ## GroundingMetadata.groundingAttributions
 
@@ -43,7 +43,7 @@ groundingAttributions: GroundingAttribution[];
 
 ## GroundingMetadata.groundingChunks
 
-List of supporting references retrieved from the specified grounding source.
+A list of [GroundingChunk](./ai.groundingchunk.md#groundingchunk_interface) objects. Each chunk represents a piece of retrieved content (e.g. from a web page). that the model used to ground its response.
 
 <b>Signature:</b>
 
@@ -53,7 +53,7 @@ groundingChunks?: GroundingChunk[];
 
 ## GroundingMetadata.groundingSupports
 
-List of grounding support.
+A list of [GroundingSupport](./ai.groundingsupport.md#groundingsupport_interface) objects. Each object details how specific segments of the model's response are supported by the `groundingChunks`<!-- -->.
 
 <b>Signature:</b>
 
@@ -63,6 +63,11 @@ groundingSupports?: GroundingSupport[];
 
 ## GroundingMetadata.retrievalQueries
 
+> Warning: This API is now obsolete.
+> 
+> Use [GroundingMetadata.groundingSupports](./ai.groundingmetadata.md#groundingmetadatagroundingsupports) instead.
+> 
+
 <b>Signature:</b>
 
 ```typescript
@@ -71,7 +76,7 @@ retrievalQueries?: string[];
 
 ## GroundingMetadata.searchEntryPoint
 
-Google search entry for the following web searches.
+Google search entry for the following web searches. An HTML/CSS snippet that can be embedded in a web page to display a Google Search Entry point for follow-up web searches related to the model's response.
 
 <b>Signature:</b>
 
@@ -81,7 +86,7 @@ searchEntryPoint?: SearchEntrypoint;
 
 ## GroundingMetadata.webSearchQueries
 
-Web search queries for the following-up web search.
+A list of web search queries that the model performed to gather the grounding information. These can be used to allow users to explore the search results themselves.
 
 <b>Signature:</b>
 

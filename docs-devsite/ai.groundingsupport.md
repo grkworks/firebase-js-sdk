@@ -10,7 +10,7 @@ https://github.com/firebase/firebase-js-sdk
 {% endcomment %}
 
 # GroundingSupport interface
-Grounding support.
+Provides information about how a specific segment of the model's response is supported by the retrieved grounding chunks.
 
 <b>Signature:</b>
 
@@ -22,13 +22,13 @@ export interface GroundingSupport
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [confidenceScores](./ai.groundingsupport.md#groundingsupportconfidencescores) | number\[\] | Confidence score of the supporting references. Ranges from 0 to 1, where 1 is the most confident. This list must have the same size has the <code>groundingChunkIndices</code>. |
-|  [groundingChunkIndices](./ai.groundingsupport.md#groundingsupportgroundingchunkindices) | number\[\] | A list of indices into <code>groundingChunk</code> specifying the citations associated with the claim. For example, <code>[1,3,4]</code> means that <code>groundingChunk[1]</code>, <code>groundingChunk[3]</code>, and <code>groundingChunk[4]</code> are the retrieved content to the attributed claim. |
-|  [segment](./ai.groundingsupport.md#groundingsupportsegment) | [Segment](./ai.segment.md#segment_interface) | Segment of the content that this support is associated with. |
+|  [confidenceScores](./ai.groundingsupport.md#groundingsupportconfidencescores) | number\[\] | A list of confidence scores, corresponding to each index in <code>groundingChunkIndices</code>. Each score indicates the model's confidence that the correspondingly indexed grounding chunk supports the claim in the response segment. Scores range from 0.0 to 1.0, where 1.0 is the highest confidence. This list will have the same number of elements as <code>groundingChunkIndices</code>. |
+|  [groundingChunkIndices](./ai.groundingsupport.md#groundingsupportgroundingchunkindices) | number\[\] | A list of indices that refer to specific [GroundingChunk](./ai.groundingchunk.md#groundingchunk_interface) objects within the [GroundingMetadata.groundingChunks](./ai.groundingmetadata.md#groundingmetadatagroundingchunks) array. These referenced chunks are the sources that support the claim made in the associated <code>segment</code> of the response. For example, an array <code>[1, 3, 4]</code> means that <code>groundingChunks[1]</code>, <code>groundingChunks[3]</code>, and <code>groundingChunks[4]</code> are the retrieved content supporting this part of the response. |
+|  [segment](./ai.groundingsupport.md#groundingsupportsegment) | [Segment](./ai.segment.md#segment_interface) | Specifies the segment of the model's response content that this grounding support pertains to. |
 
 ## GroundingSupport.confidenceScores
 
-Confidence score of the supporting references. Ranges from 0 to 1, where 1 is the most confident. This list must have the same size has the `groundingChunkIndices`<!-- -->.
+A list of confidence scores, corresponding to each index in `groundingChunkIndices`<!-- -->. Each score indicates the model's confidence that the correspondingly indexed grounding chunk supports the claim in the response segment. Scores range from 0.0 to 1.0, where 1.0 is the highest confidence. This list will have the same number of elements as `groundingChunkIndices`<!-- -->.
 
 <b>Signature:</b>
 
@@ -38,7 +38,7 @@ confidenceScores?: number[];
 
 ## GroundingSupport.groundingChunkIndices
 
-A list of indices into `groundingChunk` specifying the citations associated with the claim. For example, `[1,3,4]` means that `groundingChunk[1]`<!-- -->, `groundingChunk[3]`<!-- -->, and `groundingChunk[4]` are the retrieved content to the attributed claim.
+A list of indices that refer to specific [GroundingChunk](./ai.groundingchunk.md#groundingchunk_interface) objects within the [GroundingMetadata.groundingChunks](./ai.groundingmetadata.md#groundingmetadatagroundingchunks) array. These referenced chunks are the sources that support the claim made in the associated `segment` of the response. For example, an array `[1, 3, 4]` means that `groundingChunks[1]`<!-- -->, `groundingChunks[3]`<!-- -->, and `groundingChunks[4]` are the retrieved content supporting this part of the response.
 
 <b>Signature:</b>
 
@@ -48,7 +48,7 @@ groundingChunkIndices?: number[];
 
 ## GroundingSupport.segment
 
-Segment of the content that this support is associated with.
+Specifies the segment of the model's response content that this grounding support pertains to.
 
 <b>Signature:</b>
 

@@ -10,7 +10,7 @@ https://github.com/firebase/firebase-js-sdk
 {% endcomment %}
 
 # GroundingChunk interface
-A grounding chunk.
+Represents a chunk of retrieved data that supports a claim in the model's response. This is part of the grounding information provided when grounding is enabled.
 
 <b>Signature:</b>
 
@@ -22,11 +22,11 @@ export interface GroundingChunk
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [web](./ai.groundingchunk.md#groundingchunkweb) | [WebGroundingChunk](./ai.webgroundingchunk.md#webgroundingchunk_interface) | A grounding chunk from the web. |
+|  [web](./ai.groundingchunk.md#groundingchunkweb) | [WebGroundingChunk](./ai.webgroundingchunk.md#webgroundingchunk_interface) | Contains details if the grounding chunk is from a web source. |
 
 ## GroundingChunk.web
 
-A grounding chunk from the web.
+Contains details if the grounding chunk is from a web source.
 
 <b>Signature:</b>
 

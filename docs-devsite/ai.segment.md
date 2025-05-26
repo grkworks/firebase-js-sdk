@@ -10,7 +10,7 @@ https://github.com/firebase/firebase-js-sdk
 {% endcomment %}
 
 # Segment interface
-Segment of the content
+Represents a specific segment within a [Content](./ai.content.md#content_interface) object, often used to pinpoint the exact location of text or data that grounding information refers to.
 
 <b>Signature:</b>
 
@@ -22,14 +22,14 @@ export interface Segment
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [endIndex](./ai.segment.md#segmentendindex) | number | End index in the given part, measured in bytes. Offset from the start of the part, inclusive starting at 0. |
-|  [partIndex](./ai.segment.md#segmentpartindex) | number | The index of a part object within its parent <code>Content</code> object. |
-|  [startIndex](./ai.segment.md#segmentstartindex) | number | Start index in the given part, measured in bytes. Offset from the start of the part, inclusive starting at 0. |
+|  [endIndex](./ai.segment.md#segmentendindex) | number | The zero-based end index of the segment within the specified <code>Part</code>, measured in UTF-8 bytes. This offset is exclusive, meaning the character at this index is not included in the segment. |
+|  [partIndex](./ai.segment.md#segmentpartindex) | number | The zero-based index of the [Part](./ai.md#part) object within the <code>parts</code> array of its parent [Content](./ai.content.md#content_interface) object. This identifies which part of the content the segment belongs to. |
+|  [startIndex](./ai.segment.md#segmentstartindex) | number | The zero-based start index of the segment within the specified <code>Part</code>, measured in UTF-8 bytes. This offset is inclusive, starting from 0 at the beginning of the part's content (e.g., <code>Part.text</code>). |
 |  [text](./ai.segment.md#segmenttext) | string | The text corresponding to the segment from the response. |
 
 ## Segment.endIndex
 
-End index in the given part, measured in bytes. Offset from the start of the part, inclusive starting at 0.
+The zero-based end index of the segment within the specified `Part`<!-- -->, measured in UTF-8 bytes. This offset is exclusive, meaning the character at this index is not included in the segment.
 
 <b>Signature:</b>
 
@@ -39,7 +39,7 @@ endIndex: number;
 
 ## Segment.partIndex
 
-The index of a part object within its parent `Content` object.
+The zero-based index of the [Part](./ai.md#part) object within the `parts` array of its parent [Content](./ai.content.md#content_interface) object. This identifies which part of the content the segment belongs to.
 
 <b>Signature:</b>
 
@@ -49,7 +49,7 @@ partIndex: number;
 
 ## Segment.startIndex
 
-Start index in the given part, measured in bytes. Offset from the start of the part, inclusive starting at 0.
+The zero-based start index of the segment within the specified `Part`<!-- -->, measured in UTF-8 bytes. This offset is inclusive, starting from 0 at the beginning of the part's content (e.g., `Part.text`<!-- -->).
 
 <b>Signature:</b>
 

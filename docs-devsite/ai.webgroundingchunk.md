@@ -10,7 +10,7 @@ https://github.com/firebase/firebase-js-sdk
 {% endcomment %}
 
 # WebGroundingChunk interface
-A grounding reference from the web.
+A grounding chunk from the web.
 
 <b>Signature:</b>
 
@@ -22,12 +22,25 @@ export interface WebGroundingChunk
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [title](./ai.webgroundingchunk.md#webgroundingchunktitle) | string | The title of the web page. |
-|  [uri](./ai.webgroundingchunk.md#webgroundingchunkuri) | string | The URI of the reference. Always contains the <code>vertexaisearch</code> subdomain, for example; <code>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AWhgh4y9L4oeNGWCat...</code>.<!-- -->The URI remains accessible for 30 days after the grounding result is generated. |
+|  [domain](./ai.webgroundingchunk.md#webgroundingchunkdomain) | string | The domain of the original URI from which the content was retrieved (e.g., <code>example.com</code>).<!-- -->This property is only supported in the Vertex AI Gemini API ([VertexAIBackend](./ai.vertexaibackend.md#vertexaibackend_class)<!-- -->). When using the Gemini Developer API ([GoogleAIBackend](./ai.googleaibackend.md#googleaibackend_class)<!-- -->), this property will be undefined. |
+|  [title](./ai.webgroundingchunk.md#webgroundingchunktitle) | string | The title of the retrieved web page. |
+|  [uri](./ai.webgroundingchunk.md#webgroundingchunkuri) | string | The URI of the retrieved web page. This URI is a Google-hosted proxy to the original source and typically contains the <code>vertexaisearch</code> subdomain (e.g., <code>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AWhgh4y9L4oeNGWCat...</code>.<!-- -->This proxied URI remains accessible for 30 days after the grounding result is generated. |
+
+## WebGroundingChunk.domain
+
+The domain of the original URI from which the content was retrieved (e.g., `example.com`<!-- -->).
+
+This property is only supported in the Vertex AI Gemini API ([VertexAIBackend](./ai.vertexaibackend.md#vertexaibackend_class)<!-- -->). When using the Gemini Developer API ([GoogleAIBackend](./ai.googleaibackend.md#googleaibackend_class)<!-- -->), this property will be undefined.
+
+<b>Signature:</b>
+
+```typescript
+domain?: string;
+```
 
 ## WebGroundingChunk.title
 
-The title of the web page.
+The title of the retrieved web page.
 
 <b>Signature:</b>
 
@@ -37,9 +50,9 @@ title?: string;
 
 ## WebGroundingChunk.uri
 
-The URI of the reference. Always contains the `vertexaisearch` subdomain, for example; `https://vertexaisearch.cloud.google.com/grounding-api-redirect/AWhgh4y9L4oeNGWCat...`<!-- -->.
+The URI of the retrieved web page. This URI is a Google-hosted proxy to the original source and typically contains the `vertexaisearch` subdomain (e.g., `https://vertexaisearch.cloud.google.com/grounding-api-redirect/AWhgh4y9L4oeNGWCat...`<!-- -->.
 
-The URI remains accessible for 30 days after the grounding result is generated.
+This proxied URI remains accessible for 30 days after the grounding result is generated.
 
 <b>Signature:</b>
 

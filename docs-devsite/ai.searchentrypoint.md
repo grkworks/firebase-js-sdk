@@ -22,13 +22,13 @@ export interface SearchEntrypoint
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [renderedContent](./ai.searchentrypoint.md#searchentrypointrenderedcontent) | string | Web content snippet that can be embedded in a web page. |
-|  [renderedContentElement](./ai.searchentrypoint.md#searchentrypointrenderedcontentelement) | HTMLDivElement | attachShadow(<!-- -->{<!-- -->mode: 'open'<!-- -->}<!-- -->).innerHTML = renderedContent https://developer.mozilla.org/en-US/docs/Web/API/Web\_components/Using\_shadow\_DOM - prevents CSS conflicts - "black box" structure that can't be modified by accident (very good in this context)<!-- -->this could be a helper method createEncapsulatedElement(htmlContent): HTMLDivElement |
-|  [sdkBlob](./ai.searchentrypoint.md#searchentrypointsdkblob) | string | Base64-encoded JSON array of &lt;<!-- -->search term, search url<!-- -->&gt; |
+|  [renderedContent](./ai.searchentrypoint.md#searchentrypointrenderedcontent) | string | HTML/CSS snippet that can be embedded in a web page. The snippet is designed to avoid undesired interaction with the rest of the page's CSS.<!-- -->To ensure proper rendering and prevent CSS conflicts, it is recommended to encapsulate this <code>renderedContent</code> within a shadow DOM when embedding it into a webpage. See [MDN: Using shadow DOM](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM)<!-- -->. |
 
 ## SearchEntrypoint.renderedContent
 
-Web content snippet that can be embedded in a web page.
+HTML/CSS snippet that can be embedded in a web page. The snippet is designed to avoid undesired interaction with the rest of the page's CSS.
+
+To ensure proper rendering and prevent CSS conflicts, it is recommended to encapsulate this `renderedContent` within a shadow DOM when embedding it into a webpage. See [MDN: Using shadow DOM](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM)<!-- -->.
 
 <b>Signature:</b>
 
@@ -36,24 +36,13 @@ Web content snippet that can be embedded in a web page.
 renderedContent: string;
 ```
 
-## SearchEntrypoint.renderedContentElement
+### Example
 
-attachShadow(<!-- -->{<!-- -->mode: 'open'<!-- -->}<!-- -->).innerHTML = renderedContent https://developer.mozilla.org/en-US/docs/Web/API/Web\_components/Using\_shadow\_DOM - prevents CSS conflicts - "black box" structure that can't be modified by accident (very good in this context)
 
-this could be a helper method createEncapsulatedElement(htmlContent): HTMLDivElement
+```javascript
+const container = document.createElement('div');
+document.body.appendChild(container);
+container.attachShadow({ mode: 'open' }).innerHTML = renderedContent;
 
-<b>Signature:</b>
-
-```typescript
-renderedContentElement: HTMLDivElement;
 ```
 
-## SearchEntrypoint.sdkBlob
-
-Base64-encoded JSON array of &lt;<!-- -->search term, search url<!-- -->&gt;
-
-<b>Signature:</b>
-
-```typescript
-sdkBlob?: string;
-```
