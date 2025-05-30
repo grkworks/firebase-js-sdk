@@ -1,5 +1,31 @@
 # @firebase/app-check
 
+## 0.8.13
+
+### Patch Changes
+
+- [`95b4fc6`](https://github.com/firebase/firebase-js-sdk/commit/95b4fc69d8e85991e6da20e4bf68d54d4e6741d6) [#8842](https://github.com/firebase/firebase-js-sdk/pull/8842) (fixes [#8822](https://github.com/firebase/firebase-js-sdk/issues/8822)) - Improve error handling in AppCheck. The publicly-exported `getToken()` will now throw `internalError` strings it was previously ignoring.
+
+## 0.8.12
+
+### Patch Changes
+
+- [`f681482`](https://github.com/firebase/firebase-js-sdk/commit/f68148253349b8e80fc649386fede51339266a3c) [#8792](https://github.com/firebase/firebase-js-sdk/pull/8792) - Fixed a bug that caused an error to be thrown when the debug exchange failed.
+
+- Updated dependencies [[`777f465`](https://github.com/firebase/firebase-js-sdk/commit/777f465ff37495ff933a29583769ce8a6a2b59b5)]:
+  - @firebase/util@1.11.0
+  - @firebase/component@0.6.13
+
+## 0.8.11
+
+### Patch Changes
+
+- [`25a6204c1`](https://github.com/firebase/firebase-js-sdk/commit/25a6204c1531b6c772e5368d12b2411ae1d21bbc) [#8600](https://github.com/firebase/firebase-js-sdk/pull/8600) (fixes [#6462](https://github.com/firebase/firebase-js-sdk/issues/6462)) - Generate UUIDs with `crypto.randomUUID()` instead of custom uuidv4 function that uses `Math.random()`.
+
+- Updated dependencies [[`25a6204c1`](https://github.com/firebase/firebase-js-sdk/commit/25a6204c1531b6c772e5368d12b2411ae1d21bbc)]:
+  - @firebase/util@1.10.3
+  - @firebase/component@0.6.12
+
 ## 0.8.10
 
 ### Patch Changes

@@ -1,5 +1,35 @@
 # @firebase/functions
 
+## 0.12.3
+
+### Patch Changes
+
+- Updated dependencies [[`777f465`](https://github.com/firebase/firebase-js-sdk/commit/777f465ff37495ff933a29583769ce8a6a2b59b5)]:
+  - @firebase/util@1.11.0
+  - @firebase/component@0.6.13
+
+## 0.12.2
+
+### Patch Changes
+
+- [`97d48c7`](https://github.com/firebase/firebase-js-sdk/commit/97d48c7650e2d4273b7f94c8964dfcb44113952a) [#8651](https://github.com/firebase/firebase-js-sdk/pull/8651) - `FirebaseServerApp` can now be initalized with an App Check token instead of invoking the App Check
+  `getToken` method. This should unblock the use of App Check enforced products in SSR environments
+  where the App Check SDK cannot be initialized.
+
+## 0.12.1
+
+### Patch Changes
+
+- Updated dependencies [[`25a6204c1`](https://github.com/firebase/firebase-js-sdk/commit/25a6204c1531b6c772e5368d12b2411ae1d21bbc)]:
+  - @firebase/util@1.10.3
+  - @firebase/component@0.6.12
+
+## 0.12.0
+
+### Minor Changes
+
+- [`f05509e8c`](https://github.com/firebase/firebase-js-sdk/commit/f05509e8c526ce44656389ab9997a6e5ee957a3d) [#8609](https://github.com/firebase/firebase-js-sdk/pull/8609) - Add `.stream()` api for callable functions for consuming streaming responses.
+
 ## 0.11.10
 
 ### Patch Changes

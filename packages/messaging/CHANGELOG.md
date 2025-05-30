@@ -1,5 +1,29 @@
 # @firebase/messaging
 
+## 0.12.17
+
+### Patch Changes
+
+- Updated dependencies [[`777f465`](https://github.com/firebase/firebase-js-sdk/commit/777f465ff37495ff933a29583769ce8a6a2b59b5)]:
+  - @firebase/util@1.11.0
+  - @firebase/installations@0.6.13
+  - @firebase/component@0.6.13
+
+## 0.12.16
+
+### Patch Changes
+
+- Updated dependencies [[`25a6204c1`](https://github.com/firebase/firebase-js-sdk/commit/25a6204c1531b6c772e5368d12b2411ae1d21bbc)]:
+  - @firebase/util@1.10.3
+  - @firebase/component@0.6.12
+  - @firebase/installations@0.6.12
+
+## 0.12.15
+
+### Patch Changes
+
+- [`1294e64c8`](https://github.com/firebase/firebase-js-sdk/commit/1294e64c813b6dbfb64f8dc24d90ec69a66f71ae) [#8661](https://github.com/firebase/firebase-js-sdk/pull/8661) (fixes [#7784](https://github.com/firebase/firebase-js-sdk/issues/7784)) - Fix an issue where PushManager.subscribe() is called too soon after registering the default service worker.
+
 ## 0.12.14
 
 ### Patch Changes

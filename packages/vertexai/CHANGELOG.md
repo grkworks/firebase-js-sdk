@@ -1,5 +1,61 @@
 # @firebase/vertexai
 
+## 1.2.1
+
+### Patch Changes
+
+- [`648de84`](https://github.com/firebase/firebase-js-sdk/commit/648de84b05c827d33d6b22aceb6eff01208ebdf0) [#8809](https://github.com/firebase/firebase-js-sdk/pull/8809) - Throw an error when initializing models if `appId` is not defined in the given `VertexAI` instance.
+
+- [`faaeb48`](https://github.com/firebase/firebase-js-sdk/commit/faaeb48e0c9dfddd014e5fb52088d39c895e9874) [#8832](https://github.com/firebase/firebase-js-sdk/pull/8832) - Label `GroundingAttribution` as deprecated.
+
+## 1.2.0
+
+### Minor Changes
+
+- [`25985ac`](https://github.com/firebase/firebase-js-sdk/commit/25985ac3c3a797160e2dc3a2a28aba9f63fe6dfd) [#8827](https://github.com/firebase/firebase-js-sdk/pull/8827) - Add `systemInstruction`, `tools`, and `generationConfig` to `CountTokensRequest`.
+
+- [`058afa2`](https://github.com/firebase/firebase-js-sdk/commit/058afa280c8e9a72e27f3b1fbdb2921012dc65d3) [#8741](https://github.com/firebase/firebase-js-sdk/pull/8741) - Added missing `BlockReason` and `FinishReason` enum values.
+
+## 1.1.0
+
+### Minor Changes
+
+- [`9d82665`](https://github.com/firebase/firebase-js-sdk/commit/9d826659334e1a43acd1126fab6e09a305e04936) [#8757](https://github.com/firebase/firebase-js-sdk/pull/8757) - Added support for modality-based token count.
+
+- [`ce2c775`](https://github.com/firebase/firebase-js-sdk/commit/ce2c77511210df109fdf381c7c02175173a6f7a2) [#8683](https://github.com/firebase/firebase-js-sdk/pull/8683) - **Public Preview** Added support for generating images using the Imagen 3 model.
+
+### Patch Changes
+
+- [`554c7bd`](https://github.com/firebase/firebase-js-sdk/commit/554c7bdc12cfde834ce5c4fa729a6cb790e1e5c2) [#8736](https://github.com/firebase/firebase-js-sdk/pull/8736) (fixes [#8714](https://github.com/firebase/firebase-js-sdk/issues/8714)) - Filter out empty text parts from streaming responses.
+
+- [`884cbd7`](https://github.com/firebase/firebase-js-sdk/commit/884cbd7d89d4dd9162858f108c39e75896c2db5a) [#8728](https://github.com/firebase/firebase-js-sdk/pull/8728) - Create Node CJS and ESM bundles.
+
+- Updated dependencies [[`777f465`](https://github.com/firebase/firebase-js-sdk/commit/777f465ff37495ff933a29583769ce8a6a2b59b5)]:
+  - @firebase/util@1.11.0
+  - @firebase/component@0.6.13
+
+## 1.0.4
+
+### Patch Changes
+
+- [`97d48c7`](https://github.com/firebase/firebase-js-sdk/commit/97d48c7650e2d4273b7f94c8964dfcb44113952a) [#8651](https://github.com/firebase/firebase-js-sdk/pull/8651) - `FirebaseServerApp` can now be initalized with an App Check token instead of invoking the App Check
+  `getToken` method. This should unblock the use of App Check enforced products in SSR environments
+  where the App Check SDK cannot be initialized.
+
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies [[`25a6204c1`](https://github.com/firebase/firebase-js-sdk/commit/25a6204c1531b6c772e5368d12b2411ae1d21bbc)]:
+  - @firebase/util@1.10.3
+  - @firebase/component@0.6.12
+
+## 1.0.2
+
+### Patch Changes
+
+- [`c540ba9ee`](https://github.com/firebase/firebase-js-sdk/commit/c540ba9eedd189ec8ac0932124d2cc400d1bd1d6) [#8663](https://github.com/firebase/firebase-js-sdk/pull/8663) - Clear fetch timeout after request completion. Fixes an issue that caused Node scripts to hang due to a pending timeout.
+
 ## 1.0.1
 
 ### Patch Changes

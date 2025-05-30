@@ -1,5 +1,37 @@
 # @firebase/performance-compat
 
+## 0.2.15
+
+### Patch Changes
+
+- Updated dependencies [[`5611175`](https://github.com/firebase/firebase-js-sdk/commit/5611175975deb8d39eb1387a7ef083120f12c8b5)]:
+  - @firebase/performance@0.7.2
+
+## 0.2.14
+
+### Patch Changes
+
+- Updated dependencies [[`777f465`](https://github.com/firebase/firebase-js-sdk/commit/777f465ff37495ff933a29583769ce8a6a2b59b5)]:
+  - @firebase/util@1.11.0
+  - @firebase/performance@0.7.1
+  - @firebase/component@0.6.13
+
+## 0.2.13
+
+### Patch Changes
+
+- Updated dependencies [[`2ec1c76`](https://github.com/firebase/firebase-js-sdk/commit/2ec1c768271b8432ef15fc4ba46e825ee15f3ee1)]:
+  - @firebase/performance@0.7.0
+
+## 0.2.12
+
+### Patch Changes
+
+- Updated dependencies [[`25a6204c1`](https://github.com/firebase/firebase-js-sdk/commit/25a6204c1531b6c772e5368d12b2411ae1d21bbc)]:
+  - @firebase/util@1.10.3
+  - @firebase/component@0.6.12
+  - @firebase/performance@0.6.12
+
 ## 0.2.11
 
 ### Patch Changes

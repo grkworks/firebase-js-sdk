@@ -21,7 +21,8 @@ import {
   FinishReason,
   HarmCategory,
   HarmProbability,
-  HarmSeverity
+  HarmSeverity,
+  Modality
 } from './enums';
 
 /**
@@ -83,6 +84,20 @@ export interface UsageMetadata {
   promptTokenCount: number;
   candidatesTokenCount: number;
   totalTokenCount: number;
+  promptTokensDetails?: ModalityTokenCount[];
+  candidatesTokensDetails?: ModalityTokenCount[];
+}
+
+/**
+ * Represents token counting info for a single modality.
+ *
+ * @public
+ */
+export interface ModalityTokenCount {
+  /** The modality associated with this token count. */
+  modality: Modality;
+  /** The number of tokens counted. */
+  tokenCount: number;
 }
 
 /**
@@ -138,10 +153,14 @@ export interface Citation {
 export interface GroundingMetadata {
   webSearchQueries?: string[];
   retrievalQueries?: string[];
+  /**
+   * @deprecated
+   */
   groundingAttributions: GroundingAttribution[];
 }
 
 /**
+ * @deprecated
  * @public
  */
 export interface GroundingAttribution {
@@ -213,4 +232,8 @@ export interface CountTokensResponse {
    * from the request.
    */
   totalBillableCharacters?: number;
+  /**
+   * The breakdown, by modality, of how many tokens are consumed by the prompt.
+   */
+  promptTokensDetails?: ModalityTokenCount[];
 }

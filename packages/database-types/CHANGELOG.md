@@ -1,5 +1,25 @@
 # @firebase/database-types
 
+## 1.0.10
+
+### Patch Changes
+
+- [`113c965`](https://github.com/firebase/firebase-js-sdk/commit/113c965a34d9d7219d236f1b2cb62029e0f80fda) [#8800](https://github.com/firebase/firebase-js-sdk/pull/8800) - Added non-null parent properties to ThenableReference
+
+## 1.0.9
+
+### Patch Changes
+
+- Updated dependencies [[`777f465`](https://github.com/firebase/firebase-js-sdk/commit/777f465ff37495ff933a29583769ce8a6a2b59b5)]:
+  - @firebase/util@1.11.0
+
+## 1.0.8
+
+### Patch Changes
+
+- Updated dependencies [[`25a6204c1`](https://github.com/firebase/firebase-js-sdk/commit/25a6204c1531b6c772e5368d12b2411ae1d21bbc)]:
+  - @firebase/util@1.10.3
+
 ## 1.0.7
 
 ### Patch Changes
