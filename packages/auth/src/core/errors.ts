@@ -134,8 +134,7 @@ export const enum AuthErrorCode {
   INVALID_RECAPTCHA_VERSION = 'invalid-recaptcha-version',
   INVALID_REQ_TYPE = 'invalid-req-type',
   UNSUPPORTED_PASSWORD_POLICY_SCHEMA_VERSION = 'unsupported-password-policy-schema-version',
-  PASSWORD_DOES_NOT_MEET_REQUIREMENTS = 'password-does-not-meet-requirements',
-  INVALID_HOSTING_LINK_DOMAIN = 'invalid-hosting-link-domain'
+  PASSWORD_DOES_NOT_MEET_REQUIREMENTS = 'password-does-not-meet-requirements'
 }
 
 function _debugErrorMap(): ErrorMap<AuthErrorCode> {
@@ -388,10 +387,7 @@ function _debugErrorMap(): ErrorMap<AuthErrorCode> {
     [AuthErrorCode.UNSUPPORTED_PASSWORD_POLICY_SCHEMA_VERSION]:
       'The password policy received from the backend uses a schema version that is not supported by this version of the Firebase SDK.',
     [AuthErrorCode.PASSWORD_DOES_NOT_MEET_REQUIREMENTS]:
-      'The password does not meet the requirements.',
-    [AuthErrorCode.INVALID_HOSTING_LINK_DOMAIN]:
-      'The provided Hosting link domain is not configured in Firebase Hosting or is not owned by ' +
-      'the current project. This cannot be a default Hosting domain (`web.app` or `firebaseapp.com`).'
+      'The password does not meet the requirements.'
   };
 }
 
@@ -602,6 +598,5 @@ export const AUTH_ERROR_CODES_MAP_DO_NOT_USE_INTERNALLY = {
   MISSING_CLIENT_TYPE: 'auth/missing-client-type',
   MISSING_RECAPTCHA_VERSION: 'auth/missing-recaptcha-version',
   INVALID_RECAPTCHA_VERSION: 'auth/invalid-recaptcha-version',
-  INVALID_REQ_TYPE: 'auth/invalid-req-type',
-  INVALID_HOSTING_LINK_DOMAIN: 'auth/invalid-hosting-link-domain'
+  INVALID_REQ_TYPE: 'auth/invalid-req-type'
 } as const;

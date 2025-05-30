@@ -27,12 +27,8 @@ import { Provider } from '@firebase/component';
 import {
   getModularInstance,
   createMockUserToken,
-  deepEqual,
   EmulatorMockTokenOptions,
-  getDefaultEmulatorHostnameAndPort,
-  isCloudWorkstation,
-  pingServer,
-  updateEmulatorBanner
+  getDefaultEmulatorHostnameAndPort
 } from '@firebase/util';
 
 import { AppCheckTokenProvider } from '../core/AppCheckTokenProvider';
@@ -42,7 +38,7 @@ import {
   FirebaseAuthTokenProvider
 } from '../core/AuthTokenProvider';
 import { Repo, repoInterrupt, repoResume, repoStart } from '../core/Repo';
-import { RepoInfo, RepoInfoEmulatorOptions } from '../core/RepoInfo';
+import { RepoInfo } from '../core/RepoInfo';
 import { parseRepoInfo } from '../core/util/libs/parser';
 import { newEmptyPath, pathIsEmpty } from '../core/util/Path';
 import {
@@ -88,23 +84,19 @@ let useRestClient = false;
  */
 function repoManagerApplyEmulatorSettings(
   repo: Repo,
-  hostAndPort: string,
-  emulatorOptions: RepoInfoEmulatorOptions,
+  host: string,
+  port: number,
   tokenProvider?: AuthTokenProvider
 ): void {
-  const portIndex = hostAndPort.lastIndexOf(':');
-  const host = hostAndPort.substring(0, portIndex);
-  const useSsl = isCloudWorkstation(host);
   repo.repoInfo_ = new RepoInfo(
-    hostAndPort,
-    /* secure= */ useSsl,
+    `${host}:${port}`,
+    /* secure= */ false,
     repo.repoInfo_.namespace,
     repo.repoInfo_.webSocketOnly,
     repo.repoInfo_.nodeAdmin,
     repo.repoInfo_.persistenceKey,
     repo.repoInfo_.includeNamespaceInQueryParams,
-    /*isUsingEmulator=*/ true,
-    emulatorOptions
+    /*isUsingEmulator=*/ true
   );
 
   if (tokenProvider) {
@@ -172,7 +164,7 @@ export function repoManagerDatabaseFromApp(
     repoInfo,
     app,
     authTokenProvider,
-    new AppCheckTokenProvider(app, appCheckProvider)
+    new AppCheckTokenProvider(app.name, appCheckProvider)
   );
   return new Database(repo, app);
 }
@@ -358,23 +350,13 @@ export function connectDatabaseEmulator(
 ): void {
   db = getModularInstance(db);
   db._checkNotDeleted('useEmulator');
-
-  const hostAndPort = `${host}:${port}`;
-  const repo = db._repoInternal;
   if (db._instanceStarted) {
-    // If the instance has already been started, then silenty fail if this function is called again
-    // with the same parameters. If the parameters differ then assert.
-    if (
-      hostAndPort === db._repoInternal.repoInfo_.host &&
-      deepEqual(options, repo.repoInfo_.emulatorOptions)
-    ) {
-      return;
-    }
     fatal(
-      'connectDatabaseEmulator() cannot initialize or alter the emulator configuration after the database instance has started.'
+      'Cannot call useEmulator() after instance has already been initialized.'
     );
   }
 
+  const repo = db._repoInternal;
   let tokenProvider: EmulatorTokenProvider | undefined = undefined;
   if (repo.repoInfo_.nodeAdmin) {
     if (options.mockUserToken) {
@@ -391,14 +373,8 @@ export function connectDatabaseEmulator(
     tokenProvider = new EmulatorTokenProvider(token);
   }
 
-  // Workaround to get cookies in Firebase Studio
-  if (isCloudWorkstation(host)) {
-    void pingServer(host);
-    updateEmulatorBanner('Database', true);
-  }
-
   // Modify the repo to apply emulator settings
-  repoManagerApplyEmulatorSettings(repo, hostAndPort, options, tokenProvider);
+  repoManagerApplyEmulatorSettings(repo, host, port, tokenProvider);
 }
 
 /**

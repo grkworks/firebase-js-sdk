@@ -5,26 +5,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "AI Unit Tests (node)",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceFolder}/node_modules/.bin/_mocha",
-      "cwd": "${workspaceRoot}/packages/vertexai",
-      "args": [
-        "--require",
-        "ts-node/register",
-        "--require",
-        "src/index.node.ts",
-        "--timeout",
-        "5000",
-        "src/**/*.test.ts"
-      ],
-      "env": {
-        "TS_NODE_COMPILER_OPTIONS": "{\"module\":\"commonjs\"}"
-      },
-      "sourceMaps": true
-    },
-    {
       "type": "node",
       "request": "launch",
       "name": "Prune .d.ts",
@@ -38,9 +18,9 @@
         "${workspaceFolder}/repo-scripts/prune-dts/*.test.ts"
       ],
       "env": {
-        "TS_NODE_COMPILER_OPTIONS": "{\"module\":\"commonjs\"}"
+        "TS_NODE_COMPILER_OPTIONS" : "{\"module\":\"commonjs\"}"
       },
-      "sourceMaps": true
+      "sourceMaps": true,
     },
     {
       "type": "node",
@@ -50,17 +30,16 @@
       "cwd": "${workspaceRoot}/packages/database",
       "args": [
         "test/{,!(browser)/**/}*.test.ts",
-        "--file",
-        "src/index.node.ts",
-        "--config",
-        "../../config/mocharc.node.js"
+        "--file", "src/index.node.ts",
+        "--config", "../../config/mocharc.node.js",
       ],
       "env": {
-        "TS_NODE_FILES": true,
+        "TS_NODE_FILES":true,
         "TS_NODE_CACHE": "NO",
-        "TS_NODE_COMPILER_OPTIONS": "{\"module\":\"commonjs\"}"
+        "TS_NODE_COMPILER_OPTIONS" : "{\"module\":\"commonjs\"}"
       },
-      "sourceMaps": true
+      "sourceMaps": true,
+      "protocol": "inspector"
     },
     {
       "type": "node",
@@ -69,16 +48,14 @@
       "program": "${workspaceRoot}/node_modules/.bin/_mocha",
       "cwd": "${workspaceRoot}/packages/firestore",
       "args": [
-        "--require",
-        "babel-register.js",
-        "--require",
-        "src/index.node.ts",
-        "--timeout",
-        "5000",
+        "--require", "babel-register.js",
+        "--require", "src/index.node.ts",
+        "--timeout", "5000",
         "test/{,!(browser|integration)/**/}*.test.ts",
         "--exit"
       ],
-      "sourceMaps": true
+      "sourceMaps": true,
+      "protocol": "inspector"
     },
     {
       "type": "node",
@@ -87,21 +64,18 @@
       "program": "${workspaceRoot}/node_modules/.bin/_mocha",
       "cwd": "${workspaceRoot}/packages/firestore",
       "args": [
-        "--require",
-        "babel-register.js",
-        "--require",
-        "index.node.ts",
-        "--require",
-        "test/util/node_persistence.ts",
-        "--timeout",
-        "5000",
+        "--require", "babel-register.js",
+        "--require", "index.node.ts",
+        "--require", "test/util/node_persistence.ts",
+        "--timeout", "5000",
         "test/{,!(browser|integration)/**/}*.test.ts",
         "--exit"
       ],
       "env": {
         "USE_MOCK_PERSISTENCE": "YES"
       },
-      "sourceMaps": true
+      "sourceMaps": true,
+      "protocol": "inspector"
     },
     {
       "type": "node",
@@ -110,19 +84,17 @@
       "program": "${workspaceRoot}/node_modules/.bin/_mocha",
       "cwd": "${workspaceRoot}/packages/firestore",
       "args": [
-        "--require",
-        "babel-register.js",
-        "--require",
-        "index.node.ts",
-        "--timeout",
-        "5000",
+        "--require", "babel-register.js",
+        "--require", "index.node.ts",
+        "--timeout", "5000",
         "test/{,!(browser|unit)/**/}*.test.ts",
         "--exit"
       ],
       "env": {
-        "FIRESTORE_TARGET_BACKEND": "emulator"
+        "FIRESTORE_TARGET_BACKEND" : "emulator",
       },
-      "sourceMaps": true
+      "sourceMaps": true,
+      "protocol": "inspector"
     },
     {
       "type": "node",
@@ -131,22 +103,19 @@
       "program": "${workspaceRoot}/node_modules/.bin/_mocha",
       "cwd": "${workspaceRoot}/packages/firestore",
       "args": [
-        "--require",
-        "babel-register.js",
-        "--require",
-        "index.node.ts",
-        "--require",
-        "test/util/node_persistence.ts",
-        "--timeout",
-        "5000",
+        "--require", "babel-register.js",
+        "--require", "index.node.ts",
+        "--require", "test/util/node_persistence.ts",
+        "--timeout", "5000",
         "test/{,!(browser|unit)/**/}*.test.ts",
         "--exit"
       ],
       "env": {
         "USE_MOCK_PERSISTENCE": "YES",
-        "FIRESTORE_TARGET_BACKEND": "emulator"
+        "FIRESTORE_TARGET_BACKEND" : "emulator",
       },
-      "sourceMaps": true
+      "sourceMaps": true,
+      "protocol": "inspector"
     },
     {
       "type": "node",
@@ -154,7 +123,12 @@
       "name": "Firestore Unit Tests (Browser)",
       "program": "${workspaceRoot}/node_modules/.bin/karma",
       "cwd": "${workspaceRoot}/packages/firestore",
-      "args": ["start", "--auto-watch", "--unit", "--browsers", "Chrome"]
+      "args": [
+        "start",
+        "--auto-watch",
+        "--unit",
+        "--browsers", "Chrome"
+      ]
     },
     {
       "type": "node",
@@ -162,7 +136,12 @@
       "name": "Firestore Integration Tests (Browser)",
       "program": "${workspaceRoot}/node_modules/.bin/karma",
       "cwd": "${workspaceRoot}/packages/firestore",
-      "args": ["start", "--auto-watch", "--integration", "--browsers", "Chrome"]
+      "args": [
+        "start",
+        "--auto-watch",
+        "--integration",
+        "--browsers", "Chrome"
+      ]
     }
   ]
 }

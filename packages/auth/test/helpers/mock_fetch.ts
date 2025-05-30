@@ -22,7 +22,6 @@ export interface Call {
   request?: object | string;
   method?: string;
   headers: Headers;
-  fullRequest?: RequestInit;
 }
 
 export interface Route {
@@ -60,8 +59,7 @@ const fakeFetch: typeof fetch = (
   calls.push({
     request: requestBody,
     method: request?.method,
-    headers,
-    fullRequest: request
+    headers
   });
 
   return Promise.resolve(

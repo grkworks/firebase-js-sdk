@@ -119,7 +119,6 @@ export function makeDatabaseInfo(
     settings.experimentalForceLongPolling,
     settings.experimentalAutoDetectLongPolling,
     cloneLongPollingOptions(settings.experimentalLongPollingOptions),
-    settings.useFetchStreams,
-    settings.isUsingEmulator
+    settings.useFetchStreams
   );
 }

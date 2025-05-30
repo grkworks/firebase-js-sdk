@@ -23,10 +23,11 @@ import { isIndexedDBAvailable } from '@firebase/util';
 import {
   Component,
   ComponentType,
-  ComponentContainer
+  ComponentContainer,
+  InstanceFactoryOptions
 } from '@firebase/component';
 import { Logger, LogLevel as FirebaseLogLevel } from '@firebase/logger';
-import { RemoteConfig, RemoteConfigOptions } from './public_types';
+import { RemoteConfig } from './public_types';
 import { name as packageName, version } from '../package.json';
 import { ensureInitialized } from './api';
 import { CachingClient } from './client/caching_client';
@@ -35,7 +36,7 @@ import { RetryingClient } from './client/retrying_client';
 import { RC_COMPONENT_NAME } from './constants';
 import { ErrorCode, ERROR_FACTORY } from './errors';
 import { RemoteConfig as RemoteConfigImpl } from './remote_config';
-import { IndexedDbStorage, InMemoryStorage } from './storage/storage';
+import { Storage } from './storage/storage';
 import { StorageCache } from './storage/storage_cache';
 // This needs to be in the same file that calls `getProvider()` on the component
 // or it will get tree-shaken out.
@@ -56,7 +57,7 @@ export function registerRemoteConfig(): void {
 
   function remoteConfigFactory(
     container: ComponentContainer,
-    { options }: { options?: RemoteConfigOptions }
+    { instanceIdentifier: namespace }: InstanceFactoryOptions
   ): RemoteConfig {
     /* Dependencies */
     // getImmediate for FirebaseApp will always succeed
@@ -66,6 +67,14 @@ export function registerRemoteConfig(): void {
       .getProvider('installations-internal')
       .getImmediate();
 
+    // Guards against the SDK being used in non-browser environments.
+    if (typeof window === 'undefined') {
+      throw ERROR_FACTORY.create(ErrorCode.REGISTRATION_WINDOW);
+    }
+    // Guards against the SDK being used when indexedDB is not available.
+    if (!isIndexedDBAvailable()) {
+      throw ERROR_FACTORY.create(ErrorCode.INDEXED_DB_UNAVAILABLE);
+    }
     // Normalizes optional inputs.
     const { projectId, apiKey, appId } = app.options;
     if (!projectId) {
@@ -77,11 +86,9 @@ export function registerRemoteConfig(): void {
     if (!appId) {
       throw ERROR_FACTORY.create(ErrorCode.REGISTRATION_APP_ID);
     }
-    const namespace = options?.templateId || 'firebase';
+    namespace = namespace || 'firebase';
 
-    const storage = isIndexedDBAvailable()
-      ? new IndexedDbStorage(appId, app.name, namespace)
-      : new InMemoryStorage();
+    const storage = new Storage(appId, app.name, namespace);
     const storageCache = new StorageCache(storage);
 
     const logger = new Logger(packageName);

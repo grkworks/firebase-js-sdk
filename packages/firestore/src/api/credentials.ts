@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import { FirebaseApp, _isFirebaseServerApp } from '@firebase/app';
 import {
   AppCheckInternalComponentName,
   AppCheckTokenListener,
@@ -207,9 +206,7 @@ export class LiteAuthCredentialsProvider implements CredentialsProvider<User> {
       if (tokenData) {
         hardAssert(
           typeof tokenData.accessToken === 'string',
-          0xa539,
-          'Invalid tokenData returned from getToken()',
-          { tokenData }
+          'Invalid tokenData returned from getToken():' + tokenData
         );
         return new OAuthToken(
           tokenData.accessToken,
@@ -261,7 +258,6 @@ export class FirebaseAuthCredentialsProvider
   ): void {
     hardAssert(
       this.tokenListener === undefined,
-      0xa540,
       'Token listener already added'
     );
     let lastTokenId = this.tokenCounter;
@@ -360,9 +356,7 @@ export class FirebaseAuthCredentialsProvider
         if (tokenData) {
           hardAssert(
             typeof tokenData.accessToken === 'string',
-            0x7c5d,
-            'Invalid tokenData returned from getToken()',
-            { tokenData }
+            'Invalid tokenData returned from getToken():' + tokenData
           );
           return new OAuthToken(tokenData.accessToken, this.currentUser);
         } else {
@@ -391,9 +385,7 @@ export class FirebaseAuthCredentialsProvider
     const currentUid = this.auth && this.auth.getUid();
     hardAssert(
       currentUid === null || typeof currentUid === 'string',
-      0x0807,
-      'Received invalid UID',
-      { currentUid }
+      'Received invalid UID: ' + currentUid
     );
     return new User(currentUid);
   }
@@ -503,16 +495,10 @@ export class FirebaseAppCheckTokenProvider
   private forceRefresh = false;
   private appCheck: FirebaseAppCheckInternal | null = null;
   private latestAppCheckToken: string | null = null;
-  private serverAppAppCheckToken: string | null = null;
 
   constructor(
-    app: FirebaseApp,
     private appCheckProvider: Provider<AppCheckInternalComponentName>
-  ) {
-    if (_isFirebaseServerApp(app) && app.settings.appCheckToken) {
-      this.serverAppAppCheckToken = app.settings.appCheckToken;
-    }
-  }
+  ) {}
 
   start(
     asyncQueue: AsyncQueue,
@@ -520,7 +506,6 @@ export class FirebaseAppCheckTokenProvider
   ): void {
     hardAssert(
       this.tokenListener === undefined,
-      0x0db8,
       'Token listener already added'
     );
 
@@ -577,9 +562,6 @@ export class FirebaseAppCheckTokenProvider
   }
 
   getToken(): Promise<Token | null> {
-    if (this.serverAppAppCheckToken) {
-      return Promise.resolve(new AppCheckToken(this.serverAppAppCheckToken));
-    }
     debugAssert(
       this.tokenListener != null,
       'FirebaseAppCheckTokenProvider not started.'
@@ -596,9 +578,7 @@ export class FirebaseAppCheckTokenProvider
       if (tokenResult) {
         hardAssert(
           typeof tokenResult.token === 'string',
-          0xae0e,
-          'Invalid tokenResult returned from getToken()',
-          { tokenResult }
+          'Invalid tokenResult returned from getToken():' + tokenResult
         );
         this.latestAppCheckToken = tokenResult.token;
         return new AppCheckToken(tokenResult.token);
@@ -642,25 +622,16 @@ export class EmptyAppCheckTokenProvider implements CredentialsProvider<string> {
 /** AppCheck token provider for the Lite SDK. */
 export class LiteAppCheckTokenProvider implements CredentialsProvider<string> {
   private appCheck: FirebaseAppCheckInternal | null = null;
-  private serverAppAppCheckToken: string | null = null;
 
   constructor(
-    app: FirebaseApp,
     private appCheckProvider: Provider<AppCheckInternalComponentName>
   ) {
-    if (_isFirebaseServerApp(app) && app.settings.appCheckToken) {
-      this.serverAppAppCheckToken = app.settings.appCheckToken;
-    }
     appCheckProvider.onInit(appCheck => {
       this.appCheck = appCheck;
     });
   }
 
   getToken(): Promise<Token | null> {
-    if (this.serverAppAppCheckToken) {
-      return Promise.resolve(new AppCheckToken(this.serverAppAppCheckToken));
-    }
-
     if (!this.appCheck) {
       return Promise.resolve(null);
     }
@@ -669,9 +640,7 @@ export class LiteAppCheckTokenProvider implements CredentialsProvider<string> {
       if (tokenResult) {
         hardAssert(
           typeof tokenResult.token === 'string',
-          0x0d8e,
-          'Invalid tokenResult returned from getToken()',
-          { tokenResult }
+          'Invalid tokenResult returned from getToken():' + tokenResult
         );
         return new AppCheckToken(tokenResult.token);
       } else {

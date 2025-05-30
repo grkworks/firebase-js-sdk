@@ -26,7 +26,7 @@ import {
 } from '../protos/firestore_proto_api';
 
 import { EncodedResourcePath } from './encoded_resource_path';
-import { DbTimestampKey, KeySafeBytes } from './indexeddb_sentinels';
+import { DbTimestampKey } from './indexeddb_sentinels';
 
 /**
  * Schema Version for the Web client:
@@ -52,11 +52,9 @@ import { DbTimestampKey, KeySafeBytes } from './indexeddb_sentinels';
  * 14. Add overlays.
  * 15. Add indexing support.
  * 16. Parse timestamp strings before creating index entries.
- * 17. TODO(tomandersen)
- * 18. Encode key safe representations of IndexEntry in DbIndexEntryStore.
  */
 
-export const SCHEMA_VERSION = 18;
+export const SCHEMA_VERSION = 17;
 
 /**
  * Wrapper class to store timestamps (seconds and nanos) in IndexedDb objects.
@@ -509,14 +507,14 @@ export interface DbIndexEntry {
   /** The user id for this entry. */
   uid: string;
   /** The encoded array index value for this entry. */
-  arrayValue: KeySafeBytes;
+  arrayValue: Uint8Array;
   /** The encoded directional value for equality and inequality filters. */
-  directionalValue: KeySafeBytes;
+  directionalValue: Uint8Array;
   /**
    * The document key this entry points to. This entry is encoded by an ordered
    * encoder to match the key order of the index.
    */
-  orderedDocumentKey: KeySafeBytes;
+  orderedDocumentKey: Uint8Array;
   /** The segments of the document key this entry points to. */
   documentKey: string[];
 }

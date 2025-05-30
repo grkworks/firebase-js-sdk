@@ -226,7 +226,7 @@ export function toPipelineFilterCondition(
           return andFunction(field.exists(), not(field.in(...values!)));
         }
         default:
-          fail(0x5cb4, 'Unexpected operator');
+          fail('Unexpected operator');
       }
     }
   } else if (f instanceof CompositeFilterInternal) {
@@ -244,7 +244,7 @@ export function toPipelineFilterCondition(
         return orFunction(conditions[0], ...conditions.slice(1));
       }
       default:
-        fail(0xd914, 'Unexpected operator');
+        fail('Unexpected operator');
     }
   }
 

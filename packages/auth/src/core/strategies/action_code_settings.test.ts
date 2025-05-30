@@ -26,10 +26,6 @@ describe('core/strategies/action_code_settings', () => {
   let auth: TestAuth;
   const request: GetOobCodeRequest = {};
 
-  const TEST_BUNDLE_ID = 'my-bundle';
-  const TEST_FDL_DOMAIN = 'fdl-domain';
-  const TEST_URL = 'my-url';
-
   beforeEach(async () => {
     auth = await testAuth();
   });
@@ -39,10 +35,10 @@ describe('core/strategies/action_code_settings', () => {
       _setActionCodeSettingsOnRequest(auth, request, {
         handleCodeInApp: true,
         iOS: {
-          bundleId: TEST_BUNDLE_ID
+          bundleId: 'my-bundle'
         },
         url: '',
-        dynamicLinkDomain: TEST_FDL_DOMAIN
+        dynamicLinkDomain: 'fdl-domain'
       })
     ).to.throw(FirebaseError, '(auth/invalid-continue-uri)');
   });
@@ -52,9 +48,9 @@ describe('core/strategies/action_code_settings', () => {
       _setActionCodeSettingsOnRequest(auth, request, {
         handleCodeInApp: true,
         iOS: {
-          bundleId: TEST_BUNDLE_ID
+          bundleId: 'my-´bundle'
         },
-        url: TEST_URL
+        url: 'my-url'
       })
     ).to.not.throw();
   });
@@ -64,25 +60,12 @@ describe('core/strategies/action_code_settings', () => {
       _setActionCodeSettingsOnRequest(auth, request, {
         handleCodeInApp: true,
         iOS: {
-          bundleId: TEST_BUNDLE_ID
+          bundleId: 'my-´bundle'
         },
-        url: TEST_URL,
+        url: 'my-url',
         dynamicLinkDomain: ''
       })
     ).to.throw(FirebaseError, '(auth/invalid-dynamic-link-domain)');
-  });
-
-  it('should require a non empty Hosting link URL', () => {
-    expect(() =>
-      _setActionCodeSettingsOnRequest(auth, request, {
-        handleCodeInApp: true,
-        iOS: {
-          bundleId: TEST_BUNDLE_ID
-        },
-        url: TEST_URL,
-        linkDomain: ''
-      })
-    ).to.throw(FirebaseError, '(auth/invalid-hosting-link-domain)');
   });
 
   it('should require a non-empty bundle ID', () => {
@@ -92,8 +75,8 @@ describe('core/strategies/action_code_settings', () => {
         iOS: {
           bundleId: ''
         },
-        url: TEST_URL,
-        dynamicLinkDomain: TEST_FDL_DOMAIN
+        url: 'my-url',
+        dynamicLinkDomain: 'fdl-domain'
       })
     ).to.throw(FirebaseError, '(auth/missing-ios-bundle-id)');
   });
@@ -105,8 +88,8 @@ describe('core/strategies/action_code_settings', () => {
         android: {
           packageName: ''
         },
-        url: TEST_URL,
-        dynamicLinkDomain: TEST_FDL_DOMAIN
+        url: 'my-url',
+        dynamicLinkDomain: 'fdl-domain'
       })
     ).to.throw(FirebaseError, '(auth/missing-android-pkg-name)');
   });

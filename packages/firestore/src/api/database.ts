@@ -21,12 +21,7 @@ import {
   FirebaseApp,
   getApp
 } from '@firebase/app';
-import {
-  deepEqual,
-  getDefaultEmulatorHostnameAndPort,
-  isCloudWorkstation,
-  pingServer
-} from '@firebase/util';
+import { deepEqual, getDefaultEmulatorHostnameAndPort } from '@firebase/util';
 
 import { User } from '../auth/user';
 import {
@@ -207,11 +202,6 @@ export function initializeFirestore(
       Code.INVALID_ARGUMENT,
       `cacheSizeBytes must be at least ${LRU_MINIMUM_CACHE_SIZE_BYTES}`
     );
-  }
-
-  // Workaround to get cookies in Firebase Studio
-  if (settings.host && isCloudWorkstation(settings.host)) {
-    void pingServer(settings.host);
   }
 
   return provider.initialize({

@@ -17,7 +17,6 @@
 
 import { FirebaseApp } from '@firebase/app';
 import {
-  FetchResponse,
   RemoteConfig as RemoteConfigType,
   LogLevel as RemoteConfigLogLevel
 } from '../src/public_types';
@@ -26,7 +25,10 @@ import * as sinon from 'sinon';
 import { StorageCache } from '../src/storage/storage_cache';
 import { Storage } from '../src/storage/storage';
 import { RemoteConfig } from '../src/remote_config';
-import { RemoteConfigFetchClient } from '../src/client/remote_config_fetch_client';
+import {
+  RemoteConfigFetchClient,
+  FetchResponse
+} from '../src/client/remote_config_fetch_client';
 import { Value } from '../src/value';
 import './setup';
 import { ERROR_FACTORY, ErrorCode } from '../src/errors';
@@ -40,8 +42,7 @@ import {
   getString,
   getValue,
   setLogLevel,
-  fetchConfig,
-  setCustomSignals
+  fetchConfig
 } from '../src/api';
 import * as api from '../src/api';
 import { fetchAndActivate } from '../src';
@@ -90,48 +91,6 @@ describe('RemoteConfig', () => {
   afterEach(() => {
     loggerDebugSpy.restore();
     loggerLogLevelSpy.restore();
-  });
-
-  describe('setCustomSignals', () => {
-    beforeEach(() => {
-      storageCache.setCustomSignals = sinon.stub();
-      storage.setCustomSignals = sinon.stub();
-      logger.error = sinon.stub();
-    });
-
-    it('call storage API to store signals', async () => {
-      await setCustomSignals(rc, { key: 'value' });
-
-      expect(storageCache.setCustomSignals).to.have.been.calledWith({
-        key: 'value'
-      });
-    });
-
-    it('logs an error when supplied with a custom signal key greater than 250 characters', async () => {
-      const longKey = 'a'.repeat(251);
-      const customSignals = { [longKey]: 'value' };
-
-      await setCustomSignals(rc, customSignals);
-
-      expect(storageCache.setCustomSignals).to.not.have.been.called;
-      expect(logger.error).to.have.been.called;
-    });
-
-    it('logs an error when supplied with a custom signal value greater than 500 characters', async () => {
-      const longValue = 'a'.repeat(501);
-      const customSignals = { 'key': longValue };
-
-      await setCustomSignals(rc, customSignals);
-
-      expect(storageCache.setCustomSignals).to.not.have.been.called;
-      expect(logger.error).to.have.been.called;
-    });
-
-    it('empty custom signals map does nothing', async () => {
-      await setCustomSignals(rc, {});
-
-      expect(storageCache.setCustomSignals).to.not.have.been.called;
-    });
   });
 
   // Adapts getUserLanguage tests from packages/auth/test/utils_test.js for TypeScript.
@@ -490,7 +449,6 @@ describe('RemoteConfig', () => {
         .stub()
         .returns(Promise.resolve({ status: 200 } as FetchResponse));
       storageCache.setLastFetchStatus = sinon.stub();
-      storageCache.getCustomSignals = sinon.stub();
       timeoutStub = sinon.stub(window, 'setTimeout');
     });
 
@@ -558,12 +516,6 @@ describe('RemoteConfig', () => {
       expect(storageCache.setLastFetchStatus).to.have.been.calledWith(
         'failure'
       );
-    });
-
-    it('sends custom signals', async () => {
-      await fetchConfig(rc);
-
-      expect(storageCache.getCustomSignals).to.have.been.called;
     });
   });
 });

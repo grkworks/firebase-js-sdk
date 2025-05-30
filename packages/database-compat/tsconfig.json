@@ -5,5 +5,7 @@
     "strict": false,
     "downlevelIteration": true
   },
-  "exclude": ["dist/**/*"]
+  "exclude": [
+    "dist/**/*"
+  ]
 }

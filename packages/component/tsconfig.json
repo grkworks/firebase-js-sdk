@@ -4,5 +4,7 @@
     "outDir": "dist",
     "downlevelIteration": true
   },
-  "exclude": ["dist/**/*"]
+  "exclude": [
+    "dist/**/*"
+  ]
 }

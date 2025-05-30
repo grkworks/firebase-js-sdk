@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import webpack, { OutputFileSystem } from 'webpack';
+import webpack from 'webpack';
 // @ts-ignore
 import virtualModulesPlugin from 'webpack-virtual-modules';
 import { createFsFromVolume, IFs, Volume } from 'memfs';
@@ -61,7 +61,7 @@ export async function bundleWithWebpack(
   });
 
   // use virtual file system for output to avoid I/O
-  compiler.outputFileSystem = getMemoryFileSystem() as OutputFileSystem;
+  compiler.outputFileSystem = getMemoryFileSystem();
 
   return new Promise<string>((res, rej) => {
     compiler.run((err, stats) => {

@@ -70,7 +70,6 @@ export interface GetOobCodeRequest {
   dynamicLinkDomain?: string;
   tenantId?: string;
   targetProjectid?: string;
-  linkDomain?: string;
 }
 
 export interface VerifyEmailRequest extends GetOobCodeRequest {

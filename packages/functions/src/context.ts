@@ -16,7 +16,6 @@
  */
 
 import { Provider } from '@firebase/component';
-import { _isFirebaseServerApp, FirebaseApp } from '@firebase/app';
 import {
   AppCheckInternalComponentName,
   FirebaseAppCheckInternal
@@ -48,16 +47,11 @@ export class ContextProvider {
   private auth: FirebaseAuthInternal | null = null;
   private messaging: MessagingInternal | null = null;
   private appCheck: FirebaseAppCheckInternal | null = null;
-  private serverAppAppCheckToken: string | null = null;
   constructor(
-    readonly app: FirebaseApp,
     authProvider: Provider<FirebaseAuthInternalName>,
     messagingProvider: Provider<MessagingInternalComponentName>,
     appCheckProvider: Provider<AppCheckInternalComponentName>
   ) {
-    if (_isFirebaseServerApp(app) && app.settings.appCheckToken) {
-      this.serverAppAppCheckToken = app.settings.appCheckToken;
-    }
     this.auth = authProvider.getImmediate({ optional: true });
     this.messaging = messagingProvider.getImmediate({
       optional: true
@@ -82,7 +76,7 @@ export class ContextProvider {
     }
 
     if (!this.appCheck) {
-      appCheckProvider?.get().then(
+      appCheckProvider.get().then(
         appCheck => (this.appCheck = appCheck),
         () => {
           /* get() never rejects */
@@ -128,9 +122,6 @@ export class ContextProvider {
   async getAppCheckToken(
     limitedUseAppCheckTokens?: boolean
   ): Promise<string | null> {
-    if (this.serverAppAppCheckToken) {
-      return this.serverAppAppCheckToken;
-    }
     if (this.appCheck) {
       const result = limitedUseAppCheckTokens
         ? await this.appCheck.getLimitedUseToken()

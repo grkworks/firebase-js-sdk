@@ -123,20 +123,6 @@ export abstract class Emulator {
     });
   }
 
-  findDataConnectConfigDir() {
-    let path = './';
-    const files = fs.readdirSync(path);
-    if (files.includes('dataconnect')) {
-      return path + 'dataconnect';
-    }
-    if (files.includes('test')) {
-      return path + 'test/dataconnect';
-    }
-    throw new Error(
-      'Max Depth Exceeded. Please run from the data-connect/test folder'
-    );
-  }
-
   setUp(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       if (!this.binaryPath) {
@@ -144,21 +130,11 @@ export abstract class Emulator {
       }
       let promise: ChildProcessPromise<SpawnPromiseResult>;
       if (this.isDataConnect) {
-        const dataConnectConfigDir = this.findDataConnectConfigDir();
         promise = spawn(this.binaryPath, [
-          '--logtostderr',
-          '--v=2',
           'dev',
-          `--listen=127.0.0.1:${this.port},[::1]:${this.port}`,
-          `--config_dir=${dataConnectConfigDir}`
+          '--local_connection_string',
+          "'postgresql://postgres:secretpassword@localhost:5432/postgres?sslmode=disable'"
         ]);
-        promise.childProcess.stdout?.on('data', console.log);
-        promise.childProcess.stderr?.on('data', res =>
-          console.log(res.toString())
-        );
-        promise.childProcess.stderr?.on('error', res =>
-          console.log(res.toString())
-        );
       } else {
         promise = spawn(
           'java',

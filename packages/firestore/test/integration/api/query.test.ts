@@ -1357,7 +1357,6 @@ apiDescribe('Queries', persistence => {
       return withTestCollection(persistence, testDocs, async coll => {
         // a == 1
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(coll, where('a', '==', 1)),
           'doc1',
           'doc4',
@@ -1366,21 +1365,18 @@ apiDescribe('Queries', persistence => {
 
         // Implicit AND: a == 1 && b == 3
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(coll, where('a', '==', 1), where('b', '==', 3)),
           'doc4'
         );
 
         // explicit AND: a == 1 && b == 3
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(coll, and(where('a', '==', 1), where('b', '==', 3))),
           'doc4'
         );
 
         // a == 1, limit 2
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(coll, where('a', '==', 1), limit(2)),
           'doc1',
           'doc4'
@@ -1388,7 +1384,6 @@ apiDescribe('Queries', persistence => {
 
         // explicit OR: a == 1 || b == 1 with limit 2
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(coll, or(where('a', '==', 1), where('b', '==', 1)), limit(2)),
           'doc1',
           'doc2'
@@ -1396,7 +1391,6 @@ apiDescribe('Queries', persistence => {
 
         // only limit 2
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(coll, limit(2)),
           'doc1',
           'doc2'
@@ -1404,7 +1398,6 @@ apiDescribe('Queries', persistence => {
 
         // limit 2 and order by b desc
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(coll, limit(2), orderBy('b', 'desc')),
           'doc4',
           'doc3'
@@ -1424,7 +1417,6 @@ apiDescribe('Queries', persistence => {
       return withTestCollection(persistence, testDocs, async coll => {
         // Two equalities: a==1 || b==1.
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(coll, or(where('a', '==', 1), where('b', '==', 1))),
           'doc1',
           'doc2',
@@ -1434,7 +1426,6 @@ apiDescribe('Queries', persistence => {
 
         // (a==1 && b==0) || (a==3 && b==2)
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(
             coll,
             or(
@@ -1448,7 +1439,6 @@ apiDescribe('Queries', persistence => {
 
         // a==1 && (b==0 || b==3).
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(
             coll,
             and(
@@ -1462,7 +1452,6 @@ apiDescribe('Queries', persistence => {
 
         // (a==2 || b==2) && (a==3 || b==3)
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(
             coll,
             and(
@@ -1475,7 +1464,6 @@ apiDescribe('Queries', persistence => {
 
         // Test with limits without orderBy (the __name__ ordering is the tie breaker).
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(coll, or(where('a', '==', 2), where('b', '==', 1)), limit(1)),
           'doc2'
         );
@@ -1495,7 +1483,6 @@ apiDescribe('Queries', persistence => {
       return withTestCollection(persistence, testDocs, async coll => {
         // a==2 || b in [2,3]
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(coll, or(where('a', '==', 2), where('b', 'in', [2, 3]))),
           'doc3',
           'doc4',
@@ -1517,7 +1504,6 @@ apiDescribe('Queries', persistence => {
       return withTestCollection(persistence, testDocs, async coll => {
         // a==2 || b array-contains 7
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(coll, or(where('a', '==', 2), where('b', 'array-contains', 7))),
           'doc3',
           'doc4',
@@ -1526,7 +1512,6 @@ apiDescribe('Queries', persistence => {
 
         // a==2 || b array-contains-any [0, 3]
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(
             coll,
             or(where('a', '==', 2), where('b', 'array-contains-any', [0, 3]))
@@ -1550,7 +1535,6 @@ apiDescribe('Queries', persistence => {
 
       return withTestCollection(persistence, testDocs, async coll => {
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(
             coll,
             or(
@@ -1565,7 +1549,6 @@ apiDescribe('Queries', persistence => {
         );
 
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(
             coll,
             and(
@@ -1577,7 +1560,6 @@ apiDescribe('Queries', persistence => {
         );
 
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(
             coll,
             or(
@@ -1591,7 +1573,6 @@ apiDescribe('Queries', persistence => {
         );
 
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(
             coll,
             and(
@@ -1617,7 +1598,6 @@ apiDescribe('Queries', persistence => {
 
       return withTestCollection(persistence, testDocs, async coll => {
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(
             coll,
             or(where('a', 'in', [2, 3]), where('b', 'array-contains', 3))
@@ -1628,7 +1608,6 @@ apiDescribe('Queries', persistence => {
         );
 
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(
             coll,
             and(where('a', 'in', [2, 3]), where('b', 'array-contains', 7))
@@ -1637,7 +1616,6 @@ apiDescribe('Queries', persistence => {
         );
 
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(
             coll,
             or(
@@ -1651,7 +1629,6 @@ apiDescribe('Queries', persistence => {
         );
 
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(
             coll,
             and(
@@ -1676,7 +1653,6 @@ apiDescribe('Queries', persistence => {
 
       return withTestCollection(persistence, testDocs, async coll => {
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(coll, where('a', '==', 1), orderBy('a')),
           'doc1',
           'doc4',
@@ -1684,7 +1660,6 @@ apiDescribe('Queries', persistence => {
         );
 
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(coll, where('a', 'in', [2, 3]), orderBy('a')),
           'doc6',
           'doc3'
@@ -1705,7 +1680,6 @@ apiDescribe('Queries', persistence => {
       return withTestCollection(persistence, testDocs, async coll => {
         // Two IN operations on different fields with disjunction.
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(coll, or(where('a', 'in', [2, 3]), where('b', 'in', [0, 2]))),
           'doc1',
           'doc3',
@@ -1714,7 +1688,6 @@ apiDescribe('Queries', persistence => {
 
         // Two IN operations on different fields with conjunction.
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(coll, and(where('a', 'in', [2, 3]), where('b', 'in', [0, 2]))),
           'doc3'
         );
@@ -1722,7 +1695,6 @@ apiDescribe('Queries', persistence => {
         // Two IN operations on the same field.
         // a IN [1,2,3] && a IN [0,1,4] should result in "a==1".
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(
             coll,
             and(where('a', 'in', [1, 2, 3]), where('a', 'in', [0, 1, 4]))
@@ -1735,7 +1707,6 @@ apiDescribe('Queries', persistence => {
         // a IN [2,3] && a IN [0,1,4] is never true and so the result should be an
         // empty set.
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(
             coll,
             and(where('a', 'in', [2, 3]), where('a', 'in', [0, 1, 4]))
@@ -1744,7 +1715,6 @@ apiDescribe('Queries', persistence => {
 
         // a IN [0,3] || a IN [0,2] should union them (similar to: a IN [0,2,3]).
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(coll, or(where('a', 'in', [0, 3]), where('a', 'in', [0, 2]))),
           'doc3',
           'doc6'
@@ -1752,7 +1722,6 @@ apiDescribe('Queries', persistence => {
 
         // Nested composite filter on the same field.
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(
             coll,
             and(
@@ -1768,7 +1737,6 @@ apiDescribe('Queries', persistence => {
 
         // Nested composite filter on the different fields.
         await checkOnlineAndOfflineResultsMatch(
-          coll,
           query(
             coll,
             and(
@@ -1781,104 +1749,6 @@ apiDescribe('Queries', persistence => {
           ),
           'doc4'
         );
-      });
-    });
-
-    it('sdk uses != filter same as backend', async () => {
-      const testDocs = {
-        a: { zip: Number.NaN },
-        b: { zip: 91102 },
-        c: { zip: 98101 },
-        d: { zip: '98101' },
-        e: { zip: [98101] },
-        f: { zip: [98101, 98102] },
-        g: { zip: ['98101', { zip: 98101 }] },
-        h: { zip: { code: 500 } },
-        i: { zip: null },
-        j: { code: 500 }
-      };
-
-      await withTestCollection(persistence, testDocs, async coll => {
-        // populate cache with all documents first to ensure getDocsFromCache() scans all docs
-        await getDocs(coll);
-
-        let testQuery = query(coll, where('zip', '!=', 98101));
-        await checkOnlineAndOfflineResultsMatch(
-          coll,
-          testQuery,
-          'a',
-          'b',
-          'd',
-          'e',
-          'f',
-          'g',
-          'h'
-        );
-
-        testQuery = query(coll, where('zip', '!=', Number.NaN));
-        await checkOnlineAndOfflineResultsMatch(
-          coll,
-          testQuery,
-          'b',
-          'c',
-          'd',
-          'e',
-          'f',
-          'g',
-          'h'
-        );
-
-        testQuery = query(coll, where('zip', '!=', null));
-        await checkOnlineAndOfflineResultsMatch(
-          coll,
-          testQuery,
-          'a',
-          'b',
-          'c',
-          'd',
-          'e',
-          'f',
-          'g',
-          'h'
-        );
-      });
-    });
-
-    it('sdk uses not-in filter same as backend', async () => {
-      const testDocs = {
-        a: { zip: Number.NaN },
-        b: { zip: 91102 },
-        c: { zip: 98101 },
-        d: { zip: '98101' },
-        e: { zip: [98101] },
-        f: { zip: [98101, 98102] },
-        g: { zip: ['98101', { zip: 98101 }] },
-        h: { zip: { code: 500 } },
-        i: { zip: null },
-        j: { code: 500 }
-      };
-
-      await withTestCollection(persistence, testDocs, async coll => {
-        // populate cache with all documents first to ensure getDocsFromCache() scans all docs
-        await getDocs(coll);
-
-        let testQuery = query(
-          coll,
-          where('zip', 'not-in', [98101, 98103, [98101, 98102]])
-        );
-        await checkOnlineAndOfflineResultsMatch(
-          coll,
-          testQuery,
-          'a',
-          'b',
-          'd',
-          'e',
-          'g',
-          'h'
-        );
-
-        testQuery = query(coll, where('zip', 'not-in', [null]));
-        await checkOnlineAndOfflineResultsMatch(coll, testQuery);
       });
     });
   });

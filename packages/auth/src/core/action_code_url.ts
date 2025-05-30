@@ -29,7 +29,7 @@ const enum QueryField {
   API_KEY = 'apiKey',
   CODE = 'oobCode',
   CONTINUE_URL = 'continueUrl',
-  LANGUAGE_CODE = 'lang',
+  LANGUAGE_CODE = 'languageCode',
   MODE = 'mode',
   TENANT_ID = 'tenantId'
 }

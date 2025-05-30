@@ -1,12 +1,11 @@
-specVersion: "v1"
-serviceId: "fdc-service"
+specVersion: "v1beta"
+serviceId: "dataconnect"
 location: "us-west2"
 schema:
   source: "./schema"
   datasource:
     postgresql:
-      database: "tests"
+      database: "dataconnect-test"
       cloudSql:
-        instanceId: "prod"
-      # schemaValidation: "COMPATIBLE"
+        instanceId: "local"
 connectorDirs: ["./connector"]

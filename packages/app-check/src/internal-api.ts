@@ -60,8 +60,7 @@ export function formatDummyToken(
  */
 export async function getToken(
   appCheck: AppCheckService,
-  forceRefresh = false,
-  shouldLogErrors = false
+  forceRefresh = false
 ): Promise<AppCheckTokenResult> {
   const app = appCheck.app;
   ensureActivated(app);
@@ -117,39 +116,24 @@ export async function getToken(
    * Check token using the debug token, and return it directly.
    */
   if (isDebugMode()) {
-    try {
-      // Avoid making another call to the exchange endpoint if one is in flight.
-      if (!state.exchangeTokenPromise) {
-        state.exchangeTokenPromise = exchangeToken(
-          getExchangeDebugTokenRequest(app, await getDebugToken()),
-          appCheck.heartbeatServiceProvider
-        ).finally(() => {
-          // Clear promise when settled - either resolved or rejected.
-          state.exchangeTokenPromise = undefined;
-        });
-        shouldCallListeners = true;
-      }
-      const tokenFromDebugExchange: AppCheckTokenInternal =
-        await state.exchangeTokenPromise;
-      // Write debug token to indexedDB.
-      await writeTokenToStorage(app, tokenFromDebugExchange);
-      // Write debug token to state.
-      state.token = tokenFromDebugExchange;
-      return { token: tokenFromDebugExchange.token };
-    } catch (e) {
-      if (
-        (e as FirebaseError).code === `appCheck/${AppCheckError.THROTTLED}` ||
-        (e as FirebaseError).code ===
-          `appCheck/${AppCheckError.INITIAL_THROTTLE}`
-      ) {
-        // Warn if throttled, but do not treat it as an error.
-        logger.warn((e as FirebaseError).message);
-      } else if (shouldLogErrors) {
-        logger.error(e);
-      }
-      // Return dummy token and error
-      return makeDummyTokenResult(e as FirebaseError);
+    // Avoid making another call to the exchange endpoint if one is in flight.
+    if (!state.exchangeTokenPromise) {
+      state.exchangeTokenPromise = exchangeToken(
+        getExchangeDebugTokenRequest(app, await getDebugToken()),
+        appCheck.heartbeatServiceProvider
+      ).finally(() => {
+        // Clear promise when settled - either resolved or rejected.
+        state.exchangeTokenPromise = undefined;
+      });
+      shouldCallListeners = true;
     }
+    const tokenFromDebugExchange: AppCheckTokenInternal =
+      await state.exchangeTokenPromise;
+    // Write debug token to indexedDB.
+    await writeTokenToStorage(app, tokenFromDebugExchange);
+    // Write debug token to state.
+    state.token = tokenFromDebugExchange;
+    return { token: tokenFromDebugExchange.token };
   }
 
   /**
@@ -171,13 +155,11 @@ export async function getToken(
     }
     token = await getStateReference(app).exchangeTokenPromise;
   } catch (e) {
-    if (
-      (e as FirebaseError).code === `appCheck/${AppCheckError.THROTTLED}` ||
-      (e as FirebaseError).code === `appCheck/${AppCheckError.INITIAL_THROTTLE}`
-    ) {
+    if ((e as FirebaseError).code === `appCheck/${AppCheckError.THROTTLED}`) {
       // Warn if throttled, but do not treat it as an error.
       logger.warn((e as FirebaseError).message);
-    } else if (shouldLogErrors) {
+    } else {
+      // `getToken()` should never throw, but logging error text to console will aid debugging.
       logger.error(e);
     }
     // Always save error to be added to dummy token.

@@ -494,11 +494,7 @@ export function localStoreRejectBatch(
       return localStoreImpl.mutationQueue
         .lookupMutationBatch(txn, batchId)
         .next((batch: MutationBatch | null) => {
-          hardAssert(
-            batch !== null,
-            0x90f9,
-            'Attempt to reject nonexistent batch!'
-          );
+          hardAssert(batch !== null, 'Attempt to reject nonexistent batch!');
           affectedKeys = batch.keys();
           return localStoreImpl.mutationQueue.removeMutationBatch(txn, batch);
         })
@@ -1141,7 +1137,6 @@ function applyWriteToRemoteDocuments(
         const ackVersion = batchResult.docVersions.get(docKey);
         hardAssert(
           ackVersion !== null,
-          0xbd9d,
           'ackVersions should contain every doc in the write.'
         );
         if (doc.version.compareTo(ackVersion!) < 0) {

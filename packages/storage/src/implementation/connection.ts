@@ -42,7 +42,6 @@ export interface Connection<T extends ConnectionType> {
   send(
     url: string,
     method: string,
-    isUsingEmulator: boolean,
     body?: ArrayBufferView | Blob | string | null,
     headers?: Headers
   ): Promise<void>;

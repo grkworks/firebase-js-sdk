@@ -104,10 +104,6 @@ describe('Integration test: phone auth with reCAPTCHA Enterprise ENFORCE mode', 
   });
 
   it('throws error if recaptcha token is invalid', async function () {
-    // Test is ignored for now as it fails with auth/too-many-requests.
-    // TODO: Increase quota or remove this test
-    this.skip();
-
     if (emulatorUrl) {
       this.skip();
     }

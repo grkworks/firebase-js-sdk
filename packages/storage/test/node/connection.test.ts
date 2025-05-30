@@ -25,27 +25,8 @@ describe('Connections', () => {
     const connection = new FetchBytesConnection();
 
     const fetchStub = stub(globalThis, 'fetch').rejects();
-    await connection.send('testurl', 'GET', false);
+    await connection.send('testurl', 'GET');
     expect(connection.getErrorCode()).to.equal(ErrorCode.NETWORK_ERROR);
-
-    fetchStub.restore();
-  });
-  it('FetchConnection.send() should send credentials on cloud workstations', async () => {
-    const connection = new FetchBytesConnection();
-
-    const fetchStub = stub(globalThis, 'fetch').rejects();
-    await connection.send(
-      'http://something.cloudworkstations.dev',
-      'GET',
-      true
-    );
-    expect(connection.getErrorCode()).to.equal(ErrorCode.NETWORK_ERROR);
-    expect(fetchStub).to.have.been.calledWithMatch(
-      'http://something.cloudworkstations.dev',
-      {
-        credentials: 'include'
-      }
-    );
     fetchStub.restore();
   });
 });

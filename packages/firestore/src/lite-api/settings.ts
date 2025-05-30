@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-import { EmulatorMockTokenOptions } from '@firebase/util';
-
 import { FirestoreLocalCache } from '../api/cache_config';
 import { CredentialsSettings } from '../api/credentials';
 import {
@@ -82,7 +80,6 @@ export interface PrivateSettings extends FirestoreSettings {
   experimentalAutoDetectLongPolling?: boolean;
   experimentalLongPollingOptions?: ExperimentalLongPollingOptions;
   useFetchStreams?: boolean;
-  emulatorOptions?: { mockUserToken?: EmulatorMockTokenOptions | string };
 
   localCache?: FirestoreLocalCache;
 }
@@ -112,8 +109,6 @@ export class FirestoreSettingsImpl {
   readonly useFetchStreams: boolean;
   readonly localCache?: FirestoreLocalCache;
 
-  readonly isUsingEmulator: boolean;
-
   // Can be a google-auth-library or gapi client.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   credentials?: any;
@@ -132,7 +127,6 @@ export class FirestoreSettingsImpl {
       this.host = settings.host;
       this.ssl = settings.ssl ?? DEFAULT_SSL;
     }
-    this.isUsingEmulator = settings.emulatorOptions !== undefined;
 
     this.credentials = settings.credentials;
     this.ignoreUndefinedProperties = !!settings.ignoreUndefinedProperties;

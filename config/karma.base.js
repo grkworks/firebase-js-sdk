@@ -31,7 +31,7 @@ function determineBrowsers() {
     );
     if (validBrowsers.length === 0) {
       console.error(
-        `The \'BROWSERS\' environment variable was set, but no supported browsers were listed. The supported browsers are ${JSON.stringify(
+        `The \'BROWSER\' environment variable was set, but no supported browsers were listed. The supported browsers are ${JSON.stringify(
           supportedBrowsers
         )}.`
       );
@@ -41,7 +41,7 @@ function determineBrowsers() {
     }
   } else {
     console.log(
-      "The 'BROWSERS' environment variable is undefined. Defaulting to 'ChromeHeadless'."
+      "The 'BROWSER' environment variable is undefined. Defaulting to 'ChromeHeadless'."
     );
     return ['ChromeHeadless'];
   }
@@ -53,10 +53,9 @@ const config = {
 
   // Doing 65 seconds to allow for the 20 second firestore tests
   browserNoActivityTimeout: 65000,
-  browserDisconnectTimeout: 65000,
 
-  // Preprocess matching files before serving them to the browser.
-  // Available preprocessors:
+  // preprocess matching files before serving them to the browser
+  // available preprocessors:
   // https://npmjs.org/browse/keyword/karma-preprocessor
   preprocessors: {
     'test/**/*.ts': ['webpack', 'sourcemap'],
@@ -68,7 +67,7 @@ const config = {
   // test results reporter to use
   // possible values: 'dots', 'progress'
   // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-  reporters: ['coverage-istanbul', 'mocha'],
+  reporters: ['mocha', 'coverage-istanbul'],
 
   // web server port
   port: 8089,

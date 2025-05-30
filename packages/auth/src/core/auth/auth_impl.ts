@@ -120,10 +120,6 @@ export class AuthImpl implements AuthInternal, _FirebaseService {
   _tenantRecaptchaConfigs: Record<string, RecaptchaConfig> = {};
   _projectPasswordPolicy: PasswordPolicyInternal | null = null;
   _tenantPasswordPolicies: Record<string, PasswordPolicyInternal> = {};
-  _resolvePersistenceManagerAvailable:
-    | ((value: void | PromiseLike<void>) => void)
-    | undefined = undefined;
-  _persistenceManagerAvailable: Promise<void>;
   readonly name: string;
 
   // Tracks the last notified UID for state change listeners to prevent
@@ -143,11 +139,6 @@ export class AuthImpl implements AuthInternal, _FirebaseService {
   ) {
     this.name = app.name;
     this.clientVersion = config.sdkClientVersion;
-    // TODO(jamesdaniels) explore less hacky way to do this, cookie authentication needs
-    // persistenceMananger to be available. see _getFinalTarget for more context
-    this._persistenceManagerAvailable = new Promise<void>(
-      resolve => (this._resolvePersistenceManagerAvailable = resolve)
-    );
   }
 
   _initializeWithPersistence(
@@ -169,7 +160,6 @@ export class AuthImpl implements AuthInternal, _FirebaseService {
         this,
         persistenceHierarchy
       );
-      this._resolvePersistenceManagerAvailable?.();
 
       if (this._deleted) {
         return;
@@ -534,12 +524,8 @@ export class AuthImpl implements AuthInternal, _FirebaseService {
     }
   }
 
-  _getPersistenceType(): string {
+  _getPersistence(): string {
     return this.assertedPersistence.persistence.type;
-  }
-
-  _getPersistence(): PersistenceInternal {
-    return this.assertedPersistence.persistence;
   }
 
   _updateErrorMap(errorMap: AuthErrorMap): void {
@@ -859,9 +845,6 @@ export class AuthImpl implements AuthInternal, _FirebaseService {
   }
 
   async _getAppCheckToken(): Promise<string | undefined> {
-    if (_isFirebaseServerApp(this.app) && this.app.settings.appCheckToken) {
-      return this.app.settings.appCheckToken;
-    }
     const appCheckTokenResult = await this.appCheckServiceProvider
       .getImmediate({ optional: true })
       ?.getToken();

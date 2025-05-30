@@ -269,9 +269,6 @@ export function isBrowserExtension(): boolean;
 // @public
 export function isCloudflareWorker(): boolean;
 
-// @public
-export function isCloudWorkstation(host: string): boolean;
-
 // Warning: (ae-missing-release-tag) "isElectron" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public
@@ -316,11 +313,6 @@ export function isReactNative(): boolean;
 //
 // @public
 export function isSafari(): boolean;
-
-// Warning: (ae-missing-release-tag) "isSafariOrWebkit" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public
-export function isSafariOrWebkit(): boolean;
 
 // Warning: (ae-missing-release-tag) "issuedAtTime" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -402,9 +394,6 @@ export function ordinal(i: number): string;
 //
 // @public (undocumented)
 export type PartialObserver<T> = Partial<Observer<T>>;
-
-// @public
-export function pingServer(endpoint: string): Promise<boolean>;
 
 // Warning: (ae-internal-missing-underscore) The name "promiseWithTimeout" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -488,7 +477,7 @@ export interface Subscribe<T> {
 export type Unsubscribe = () => void;
 
 // @public
-export function updateEmulatorBanner(name: string, isRunningEmulator: boolean): void;
+export const uuidv4: () => string;
 
 // Warning: (ae-missing-release-tag) "validateArgCount" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

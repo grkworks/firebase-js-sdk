@@ -16,12 +16,9 @@
  */
 
 import {
-  CustomSignals,
   FetchResponse,
-  FirebaseRemoteConfigObject
-} from '../public_types';
-import {
   RemoteConfigFetchClient,
+  FirebaseRemoteConfigObject,
   FetchRequest
 } from './remote_config_fetch_client';
 import { ERROR_FACTORY, ErrorCode } from '../errors';
@@ -44,7 +41,6 @@ interface FetchRequestBody {
   app_instance_id_token: string;
   app_id: string;
   language_code: string;
-  custom_signals?: CustomSignals;
   /* eslint-enable camelcase */
 }
 
@@ -96,8 +92,7 @@ export class RestClient implements RemoteConfigFetchClient {
       app_instance_id: installationId,
       app_instance_id_token: installationToken,
       app_id: this.appId,
-      language_code: getUserLanguage(),
-      custom_signals: request.customSignals
+      language_code: getUserLanguage()
       /* eslint-enable camelcase */
     };
 

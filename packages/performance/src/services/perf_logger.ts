@@ -23,13 +23,14 @@ import { SettingsService } from './settings_service';
 import {
   getServiceWorkerStatus,
   getVisibilityState,
+  VisibilityState,
   getEffectiveConnectionType
 } from '../utils/attributes_utils';
 import {
   isPerfInitialized,
   getInitializationPromise
 } from './initialization_service';
-import { transportHandler, flushQueuedEvents } from './transport_service';
+import { transportHandler } from './transport_service';
 import { SDK_VERSION } from '../constants';
 import { FirebaseApp } from '@firebase/app';
 import { getAppId } from '../utils/app_utils';
@@ -84,28 +85,19 @@ interface TraceMetric {
   custom_attributes?: { [key: string]: string };
 }
 
-interface Logger {
-  send: (
-    resource: NetworkRequest | Trace,
-    resourceType: ResourceType
-  ) => void | undefined;
-  flush: () => void;
-}
-
-let logger: Logger;
-//
+let logger: (
+  resource: NetworkRequest | Trace,
+  resourceType: ResourceType
+) => void | undefined;
 // This method is not called before initialization.
 function sendLog(
   resource: NetworkRequest | Trace,
   resourceType: ResourceType
 ): void {
   if (!logger) {
-    logger = {
-      send: transportHandler(serializer),
-      flush: flushQueuedEvents
-    };
+    logger = transportHandler(serializer);
   }
-  logger.send(resource, resourceType);
+  logger(resource, resourceType);
 }
 
 export function logTrace(trace: Trace): void {
@@ -123,6 +115,11 @@ export function logTrace(trace: Trace): void {
     return;
   }
 
+  // Only log the page load auto traces if page is visible.
+  if (trace.isAuto && getVisibilityState() !== VisibilityState.VISIBLE) {
+    return;
+  }
+
   if (isPerfInitialized()) {
     sendTraceLog(trace);
   } else {
@@ -132,12 +129,6 @@ export function logTrace(trace: Trace): void {
       () => sendTraceLog(trace),
       () => sendTraceLog(trace)
     );
-  }
-}
-
-export function flushLogs(): void {
-  if (logger) {
-    logger.flush();
   }
 }
 
@@ -154,7 +145,7 @@ function sendTraceLog(trace: Trace): void {
     return;
   }
 
-  sendLog(trace, ResourceType.Trace);
+  setTimeout(() => sendLog(trace, ResourceType.Trace), 0);
 }
 
 export function logNetworkRequest(networkRequest: NetworkRequest): void {
@@ -186,7 +177,7 @@ export function logNetworkRequest(networkRequest: NetworkRequest): void {
     return;
   }
 
-  sendLog(networkRequest, ResourceType.NetworkRequest);
+  setTimeout(() => sendLog(networkRequest, ResourceType.NetworkRequest), 0);
 }
 
 function serializer(

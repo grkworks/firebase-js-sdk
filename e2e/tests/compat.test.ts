@@ -26,22 +26,22 @@ import 'firebase/compat/messaging';
 import 'firebase/compat/performance';
 import 'firebase/compat/database';
 import { config, testAccount } from '../firebase-config';
-import 'jest';
+import { expect } from 'chai';
 
 describe('COMPAT', () => {
   let app: firebase.app.App;
-  beforeAll(() => {
+  before(() => {
     console.log('FIREBASE VERSION', firebase.SDK_VERSION);
     app = firebase.initializeApp(config);
     firebase.setLogLevel('warn');
   });
 
-  afterAll(async () => {
+  after(async () => {
     await firebase.auth().signOut();
     await app.delete();
   });
 
-  describe('AUTH', () => {
+  describe('AUTH', async () => {
     let auth: firebase.auth.Auth;
     it('init auth', () => {
       auth = firebase.auth();
@@ -51,12 +51,12 @@ describe('COMPAT', () => {
         testAccount.email,
         testAccount.password
       );
-      console.log('Logged in with test account', cred.user?.email);
-      expect(cred.user?.email).toBe(testAccount.email);
+      console.log('Logged in with test account', cred.user.email);
+      expect(cred.user.email).to.equal(testAccount.email);
     });
   });
 
-  describe('APP CHECK', () => {
+  describe('APP CHECK', async () => {
     let appCheck: firebase.appCheck.AppCheck;
     it('init appCheck', () => {
       // @ts-ignore
@@ -68,19 +68,21 @@ describe('COMPAT', () => {
     });
   });
 
-  describe('FUNCTIONS', () => {
+  describe('FUNCTIONS', async () => {
     let functions: firebase.functions.Functions;
     it('init functions', () => {
       functions = firebase.functions();
     });
     it('httpsCallable()', async () => {
+      console.log('hi');
       const callTest = functions.httpsCallable('callTest');
       const result = await callTest({ data: 'blah' });
-      expect(result.data.word).toBe('hellooo');
-    });
+      expect(result.data.word).to.equal('hellooo');
+      // This takes a while. Extend timeout past default (2000);
+    }).timeout(5000);
   });
 
-  describe('STORAGE', () => {
+  describe('STORAGE', async () => {
     let storage: firebase.storage.Storage;
     let storageRef: firebase.storage.Reference;
     let url: string;
@@ -93,23 +95,20 @@ describe('COMPAT', () => {
     });
     it('getDownloadUrl()', async () => {
       url = await storageRef.getDownloadURL();
-      expect(url).toMatch(/test-compat\.txt/);
+      expect(url).to.match(/test-compat\.txt/);
     });
     it('fetch and check uploaded data', async () => {
       const response = await fetch(url);
       const data = await response.text();
-      expect(data).toBe('efg');
+      expect(data).to.equal('efg');
       await storageRef.delete();
     });
   });
 
-  describe('FIRESTORE', () => {
+  describe('FIRESTORE', async () => {
     let firestore: firebase.firestore.Firestore;
     it('init firestore', () => {
       firestore = firebase.firestore();
-      // @ts-ignore Super hacky way to deactive useFetchStreams
-      // which don't work in jsdom
-      firestore._delegate._settings.useFetchStreams = false;
     });
     it('set(), get(), where()', async () => {
       await firestore.collection('testCollection').doc('trueDoc').set({
@@ -122,7 +121,7 @@ describe('COMPAT', () => {
         .collection('testCollection')
         .where('testbool', '==', true)
         .get();
-      expect(trueDocs.docs.length).toBe(1);
+      expect(trueDocs.docs.length).to.equal(1);
       await firestore.collection('testCollection').doc('trueDoc').delete();
       await firestore.collection('testCollection').doc('falseDoc').delete();
     });
@@ -130,9 +129,9 @@ describe('COMPAT', () => {
       const testDocRef = firestore.doc('testCollection/testDoc');
       let expectedSnap: any = {};
       testDocRef.onSnapshot(snap => {
-        expect(snap.exists).toBe(expectedSnap.exists);
+        expect(snap.exists).to.equal(expectedSnap.exists);
         if (snap.exists) {
-          expect(snap.data()).toEqual(expectedSnap.data);
+          expect(snap.data()).to.deep.equal(expectedSnap.data);
         }
       });
       expectedSnap = { exists: true, data: { word: 'hi', number: 14 } };
@@ -147,7 +146,7 @@ describe('COMPAT', () => {
     });
   });
 
-  describe('DATABASE', () => {
+  describe('DATABASE', async () => {
     let db: firebase.database.Database;
     it('init database', () => {
       db = firebase.database();
@@ -157,9 +156,9 @@ describe('COMPAT', () => {
       let expectedValue: any = {};
       ref.on('value', snap => {
         if (snap.exists()) {
-          expect(snap.val()).toEqual(expectedValue);
+          expect(snap.val()).to.deep.equal(expectedValue);
         } else {
-          expect(expectedValue).toBeNull;
+          expect(expectedValue).to.be.null;
         }
       });
       expectedValue = { text: 'string 123 xyz' };
@@ -174,15 +173,7 @@ describe('COMPAT', () => {
 
   describe('MESSAGING', () => {
     it('init messaging', () => {
-      // @ts-ignore Stub missing browser APIs that FCM depends on
-      window.indexedDB = { open: () => Promise.resolve() };
-      // @ts-ignore Stub missing browser APIs that FCM depends on
-      navigator.serviceWorker = { addEventListener: () => {} };
       firebase.messaging();
-      // @ts-ignore
-      delete window.indexedDB;
-      // @ts-ignore
-      delete navigator.serviceWorker;
     });
   });
 
@@ -208,7 +199,7 @@ describe('COMPAT', () => {
       trace.start();
       trace.stop();
       trace.putAttribute('testattr', 'perftestvalue');
-      expect(trace.getAttribute('testattr')).toBe('perftestvalue');
+      expect(trace.getAttribute('testattr')).to.equal('perftestvalue');
     });
   });
 });

@@ -48,8 +48,7 @@ export class DatabaseInfo {
     readonly forceLongPolling: boolean,
     readonly autoDetectLongPolling: boolean,
     readonly longPollingOptions: ExperimentalLongPollingOptions,
-    readonly useFetchStreams: boolean,
-    readonly isUsingEmulator: boolean
+    readonly useFetchStreams: boolean
   ) {}
 }
 

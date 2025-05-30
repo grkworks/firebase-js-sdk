@@ -100,10 +100,7 @@ export function encodeWatchChange(
       }
     };
   }
-  return fail(
-    0xf8e5,
-    'Unrecognized watch change: ' + JSON.stringify(watchChange)
-  );
+  return fail('Unrecognized watch change: ' + JSON.stringify(watchChange));
 }
 
 function encodeTargetChangeTargetChangeType(
@@ -121,6 +118,6 @@ function encodeTargetChangeTargetChangeType(
     case WatchTargetChangeState.Reset:
       return 'RESET';
     default:
-      return fail(0x368b, 'Unknown WatchTargetChangeState: ' + state);
+      return fail('Unknown WatchTargetChangeState: ' + state);
   }
 }

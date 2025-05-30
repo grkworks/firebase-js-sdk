@@ -415,7 +415,7 @@ export class MockConnection implements Connection {
           } else if (request.removeTarget) {
             delete this.activeTargets[request.removeTarget];
           } else {
-            fail(0x782d, 'Invalid listen request');
+            fail('Invalid listen request');
           }
         },
         closeFn: () => {

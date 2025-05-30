@@ -15,60 +15,36 @@
  * limitations under the License.
  */
 
-import { isCloudWorkstation } from '@firebase/util';
-
-import {
-  Code,
-  DataConnectError,
-  DataConnectOperationError,
-  DataConnectOperationFailureResponse
-} from '../core/error';
+import { Code, DataConnectError } from '../core/error';
 import { SDK_VERSION } from '../core/version';
-import { logError } from '../logger';
-
-import { CallerSdkType, CallerSdkTypeEnum } from './transport';
+import { logDebug, logError } from '../logger';
 
 let connectFetch: typeof fetch | null = globalThis.fetch;
 export function initializeFetch(fetchImpl: typeof fetch): void {
   connectFetch = fetchImpl;
 }
-function getGoogApiClientValue(
-  _isUsingGen: boolean,
-  _callerSdkType: CallerSdkType
-): string {
+function getGoogApiClientValue(_isUsingGen: boolean): string {
   let str = 'gl-js/ fire/' + SDK_VERSION;
-  if (
-    _callerSdkType !== CallerSdkTypeEnum.Base &&
-    _callerSdkType !== CallerSdkTypeEnum.Generated
-  ) {
-    str += ' js/' + _callerSdkType.toLowerCase();
-  } else if (_isUsingGen || _callerSdkType === CallerSdkTypeEnum.Generated) {
+  if (_isUsingGen) {
     str += ' js/gen';
   }
   return str;
 }
-export interface DataConnectFetchBody<T> {
-  name: string;
-  operationName: string;
-  variables: T;
-}
 export function dcFetch<T, U>(
   url: string,
-  body: DataConnectFetchBody<U>,
+  body: U,
   { signal }: AbortController,
   appId: string | null,
   accessToken: string | null,
   appCheckToken: string | null,
-  _isUsingGen: boolean,
-  _callerSdkType: CallerSdkType,
-  _isUsingEmulator: boolean
+  _isUsingGen: boolean
 ): Promise<{ data: T; errors: Error[] }> {
   if (!connectFetch) {
     throw new DataConnectError(Code.OTHER, 'No Fetch Implementation detected!');
   }
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
-    'X-Goog-Api-Client': getGoogApiClientValue(_isUsingGen, _callerSdkType)
+    'X-Goog-Api-Client': getGoogApiClientValue(_isUsingGen)
   };
   if (accessToken) {
     headers['X-Firebase-Auth-Token'] = accessToken;
@@ -80,17 +56,14 @@ export function dcFetch<T, U>(
     headers['X-Firebase-AppCheck'] = appCheckToken;
   }
   const bodyStr = JSON.stringify(body);
-  const fetchOptions: RequestInit = {
+  logDebug(`Making request out to ${url} with body: ${bodyStr}`);
+
+  return connectFetch(url, {
     body: bodyStr,
     method: 'POST',
     headers,
     signal
-  };
-  if (isCloudWorkstation(url) && _isUsingEmulator) {
-    fetchOptions.credentials = 'include';
-  }
-
-  return connectFetch(url, fetchOptions)
+  })
     .catch(err => {
       throw new DataConnectError(
         Code.OTHER,
@@ -119,16 +92,10 @@ export function dcFetch<T, U>(
     .then(res => {
       if (res.errors && res.errors.length) {
         const stringified = JSON.stringify(res.errors);
-        const response: DataConnectOperationFailureResponse = {
-          errors: res.errors,
-          data: res.data
-        };
-        throw new DataConnectOperationError(
-          'DataConnect error while performing request: ' + stringified,
-          response
-        );
+        logError('DataConnect error while performing request: ' + stringified);
+        throw new DataConnectError(Code.OTHER, stringified);
       }
-      return res;
+      return res as { data: T; errors: Error[] };
     });
 }
 interface MessageObject {

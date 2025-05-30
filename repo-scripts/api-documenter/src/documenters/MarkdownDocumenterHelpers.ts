@@ -277,8 +277,7 @@ export function createTitleCell(
 }
 
 /**
- * This generates a DocTableCell for an ApiItem. This includes the summary section, and release
- * annotations for public preview APIs.
+ * This generates a DocTableCell for an ApiItem including the summary section and "(BETA)" annotation.
  *
  * @remarks
  * We mostly assume that the input is an ApiDocumentedItem, but it's easier to perform this as a runtime
@@ -294,7 +293,7 @@ export function createDescriptionCell(
     if (apiItem.releaseTag === ReleaseTag.Beta) {
       section.appendNodesInParagraph([
         new DocEmphasisSpan({ configuration, bold: true, italic: true }, [
-          new DocPlainText({ configuration, text: '(Public Preview)' })
+          new DocPlainText({ configuration, text: '(BETA)' })
         ]),
         new DocPlainText({ configuration, text: ' ' })
       ]);

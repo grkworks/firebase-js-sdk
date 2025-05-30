@@ -248,14 +248,7 @@ function getBytes(val: unknown): { asc: Uint8Array; desc: Uint8Array } {
     ascWriter.writeUtf8Ascending(val);
     descWriter.writeUtf8Descending(val);
   } else {
-    hardAssert(
-      val instanceof Uint8Array,
-      0xa10f,
-      'val is not instance of Uint8Array',
-      {
-        val
-      }
-    );
+    hardAssert(val instanceof Uint8Array);
     ascWriter.writeBytesAscending(ByteString.fromUint8Array(val));
     descWriter.writeBytesDescending(ByteString.fromUint8Array(val));
   }

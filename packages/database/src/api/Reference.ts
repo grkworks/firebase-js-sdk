@@ -119,10 +119,7 @@ export interface DatabaseReference extends Query {
  */
 export interface ThenableReference
   extends DatabaseReference,
-    Pick<Promise<DatabaseReference>, 'then' | 'catch'> {
-  key: string;
-  parent: DatabaseReference;
-}
+    Pick<Promise<DatabaseReference>, 'then' | 'catch'> {}
 
 /** A callback that can invoked to remove a listener. */
 export type Unsubscribe = () => void;

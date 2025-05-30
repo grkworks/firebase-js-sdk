@@ -282,8 +282,7 @@ abstract class TestRunner {
       /*forceLongPolling=*/ false,
       /*autoDetectLongPolling=*/ false,
       /*longPollingOptions=*/ {},
-      /*useFetchStreams=*/ false,
-      /*isUsingEmulator=*/ false
+      /*useFetchStreams=*/ false
     );
 
     // TODO(mrschmidt): During client startup in `firestore_client`, we block
@@ -478,7 +477,7 @@ abstract class TestRunner {
         ? this.doFailDatabase(step.failDatabase!)
         : this.doRecoverDatabase();
     } else {
-      return fail(0x6bb3, 'Unknown step: ' + JSON.stringify(step));
+      return fail('Unknown step: ' + JSON.stringify(step));
     }
   }
 
@@ -725,7 +724,7 @@ abstract class TestRunner {
       );
       return this.doWatchEvent(change);
     } else {
-      return fail(0xdcc3, 'Either doc or docs must be set');
+      return fail('Either doc or docs must be set');
     }
   }
 

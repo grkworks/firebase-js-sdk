@@ -18,7 +18,6 @@
 import { ErrorFactory, FirebaseError } from '@firebase/util';
 
 export const enum ErrorCode {
-  ALREADY_INITIALIZED = 'already-initialized',
   REGISTRATION_WINDOW = 'registration-window',
   REGISTRATION_PROJECT_ID = 'registration-project-id',
   REGISTRATION_API_KEY = 'registration-api-key',
@@ -32,12 +31,10 @@ export const enum ErrorCode {
   FETCH_THROTTLE = 'fetch-throttle',
   FETCH_PARSE = 'fetch-client-parse',
   FETCH_STATUS = 'fetch-status',
-  INDEXED_DB_UNAVAILABLE = 'indexed-db-unavailable',
-  CUSTOM_SIGNAL_MAX_ALLOWED_SIGNALS = 'custom-signal-max-allowed-signals'
+  INDEXED_DB_UNAVAILABLE = 'indexed-db-unavailable'
 }
 
 const ERROR_DESCRIPTION_MAP: { readonly [key in ErrorCode]: string } = {
-  [ErrorCode.ALREADY_INITIALIZED]: 'Remote Config already initialized',
   [ErrorCode.REGISTRATION_WINDOW]:
     'Undefined window object. This SDK only supports usage in a browser environment.',
   [ErrorCode.REGISTRATION_PROJECT_ID]:
@@ -70,9 +67,7 @@ const ERROR_DESCRIPTION_MAP: { readonly [key in ErrorCode]: string } = {
   [ErrorCode.FETCH_STATUS]:
     'Fetch server returned an HTTP error status. HTTP status: {$httpStatus}.',
   [ErrorCode.INDEXED_DB_UNAVAILABLE]:
-    'Indexed DB is not supported by current browser',
-  [ErrorCode.CUSTOM_SIGNAL_MAX_ALLOWED_SIGNALS]:
-    'Setting more than {$maxSignals} custom signals is not supported.'
+    'Indexed DB is not supported by current browser'
 };
 
 // Note this is effectively a type system binding a code to params. This approach overlaps with the
@@ -91,7 +86,6 @@ interface ErrorParams {
   [ErrorCode.FETCH_THROTTLE]: { throttleEndTimeMillis: number };
   [ErrorCode.FETCH_PARSE]: { originalErrorMessage: string };
   [ErrorCode.FETCH_STATUS]: { httpStatus: number };
-  [ErrorCode.CUSTOM_SIGNAL_MAX_ALLOWED_SIGNALS]: { maxSignals: number };
 }
 
 export const ERROR_FACTORY = new ErrorFactory<ErrorCode, ErrorParams>(

@@ -105,7 +105,7 @@ export class IndexedDbMutationQueue implements MutationQueue {
     // In particular, are there any reserved characters? are empty ids allowed?
     // For the moment store these together in the same mutations table assuming
     // that empty userIDs aren't allowed.
-    hardAssert(user.uid !== '', 0xfb83, 'UserID must not be an empty string.');
+    hardAssert(user.uid !== '', 'UserID must not be an empty string.');
     const userId = user.isAuthenticated() ? user.uid! : '';
     return new IndexedDbMutationQueue(
       userId,
@@ -154,7 +154,6 @@ export class IndexedDbMutationQueue implements MutationQueue {
     return mutationStore.add({} as any).next(batchId => {
       hardAssert(
         typeof batchId === 'number',
-        0xbf7b,
         'Auto-generated key is not a number'
       );
 
@@ -207,12 +206,7 @@ export class IndexedDbMutationQueue implements MutationQueue {
         if (dbBatch) {
           hardAssert(
             dbBatch.userId === this.userId,
-            0x0030,
-            `Unexpected user for mutation batch`,
-            {
-              userId: dbBatch.userId,
-              batchId
-            }
+            `Unexpected user '${dbBatch.userId}' for mutation batch ${batchId}`
           );
           return fromDbMutationBatch(this.serializer, dbBatch);
         }
@@ -263,9 +257,7 @@ export class IndexedDbMutationQueue implements MutationQueue {
           if (dbBatch.userId === this.userId) {
             hardAssert(
               dbBatch.batchId >= nextBatchId,
-              0xb9a4,
-              'Should have found mutation after `nextBatchId`',
-              { nextBatchId }
+              'Should have found mutation after ' + nextBatchId
             );
             foundBatch = fromDbMutationBatch(this.serializer, dbBatch);
           }
@@ -344,22 +336,15 @@ export class IndexedDbMutationQueue implements MutationQueue {
           .next(mutation => {
             if (!mutation) {
               throw fail(
-                0xf028,
-                'Dangling document-mutation reference found: `indexKey` which points to `batchId`',
-                {
-                  indexKey,
+                'Dangling document-mutation reference found: ' +
+                  indexKey +
+                  ' which points to ' +
                   batchId
-                }
               );
             }
             hardAssert(
               mutation.userId === this.userId,
-              0x2907,
-              `Unexpected user for mutation batch`,
-              {
-                userId: mutation.userId,
-                batchId
-              }
+              `Unexpected user '${mutation.userId}' for mutation batch ${batchId}`
             );
             results.push(fromDbMutationBatch(this.serializer, mutation));
           });
@@ -483,18 +468,14 @@ export class IndexedDbMutationQueue implements MutationQueue {
           .next(mutation => {
             if (mutation === null) {
               throw fail(
-                0x89ca,
-                'Dangling document-mutation reference found, which points to `batchId`',
-                {
+                'Dangling document-mutation reference found, ' +
+                  'which points to ' +
                   batchId
-                }
               );
             }
             hardAssert(
               mutation.userId === this.userId,
-              0x2614,
-              `Unexpected user for mutation batch`,
-              { userId: mutation.userId, batchId }
+              `Unexpected user '${mutation.userId}' for mutation batch ${batchId}`
             );
             results.push(fromDbMutationBatch(this.serializer, mutation));
           })
@@ -568,13 +549,9 @@ export class IndexedDbMutationQueue implements MutationQueue {
         .next(() => {
           hardAssert(
             danglingMutationReferences.length === 0,
-            0xdd90,
-            'Document leak -- detected dangling mutation references when queue is empty.',
-            {
-              danglingKeys: danglingMutationReferences.map(p =>
-                p.canonicalString()
-              )
-            }
+            'Document leak -- detected dangling mutation references when queue is empty. ' +
+              'Dangling keys: ' +
+              danglingMutationReferences.map(p => p.canonicalString())
           );
         });
     });

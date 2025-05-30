@@ -162,8 +162,7 @@ describe('core/strategies/sendEmailVerification', () => {
           bundleId: 'my-bundle'
         },
         url: 'my-url',
-        dynamicLinkDomain: 'fdl-domain',
-        linkDomain: 'hosting-link-domain'
+        dynamicLinkDomain: 'fdl-domain'
       });
 
       expect(mock.calls[0].request).to.eql({
@@ -171,7 +170,6 @@ describe('core/strategies/sendEmailVerification', () => {
         idToken,
         continueUrl: 'my-url',
         dynamicLinkDomain: 'fdl-domain',
-        linkDomain: 'hosting-link-domain',
         canHandleCodeInApp: true,
         iOSBundleId: 'my-bundle'
       });
@@ -192,15 +190,13 @@ describe('core/strategies/sendEmailVerification', () => {
           packageName: 'my-package'
         },
         url: 'my-url',
-        dynamicLinkDomain: 'fdl-domain',
-        linkDomain: 'hosting-link-domain'
+        dynamicLinkDomain: 'fdl-domain'
       });
       expect(mock.calls[0].request).to.eql({
         requestType: ActionCodeOperation.VERIFY_EMAIL,
         idToken,
         continueUrl: 'my-url',
         dynamicLinkDomain: 'fdl-domain',
-        linkDomain: 'hosting-link-domain',
         canHandleCodeInApp: true,
         androidInstallApp: false,
         androidMinimumVersionCode: 'my-version',
@@ -274,8 +270,7 @@ describe('core/strategies/verifyBeforeUpdateEmail', () => {
           bundleId: 'my-bundle'
         },
         url: 'my-url',
-        dynamicLinkDomain: 'fdl-domain',
-        linkDomain: 'hosting-link-domain'
+        dynamicLinkDomain: 'fdl-domain'
       });
 
       expect(mock.calls[0].request).to.eql({
@@ -284,7 +279,6 @@ describe('core/strategies/verifyBeforeUpdateEmail', () => {
         newEmail,
         continueUrl: 'my-url',
         dynamicLinkDomain: 'fdl-domain',
-        linkDomain: 'hosting-link-domain',
         canHandleCodeInApp: true,
         iOSBundleId: 'my-bundle'
       });
@@ -305,8 +299,7 @@ describe('core/strategies/verifyBeforeUpdateEmail', () => {
           packageName: 'my-package'
         },
         url: 'my-url',
-        dynamicLinkDomain: 'fdl-domain',
-        linkDomain: 'hosting-link-domain'
+        dynamicLinkDomain: 'fdl-domain'
       });
       expect(mock.calls[0].request).to.eql({
         requestType: ActionCodeOperation.VERIFY_AND_CHANGE_EMAIL,
@@ -314,7 +307,6 @@ describe('core/strategies/verifyBeforeUpdateEmail', () => {
         newEmail,
         continueUrl: 'my-url',
         dynamicLinkDomain: 'fdl-domain',
-        linkDomain: 'hosting-link-domain',
         canHandleCodeInApp: true,
         androidInstallApp: false,
         androidMinimumVersionCode: 'my-version',

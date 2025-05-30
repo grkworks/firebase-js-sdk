@@ -101,6 +101,3 @@ docs/
 # vertexai test data
 vertexai-sdk-test-data
 mocks-lookup.ts
-
-# temp changeset output
-changeset-temp.json

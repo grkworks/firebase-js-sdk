@@ -49,7 +49,6 @@ export function registerFirestore(): void {
             container.getProvider('auth-internal')
           ),
           new LiteAppCheckTokenProvider(
-            app,
             container.getProvider('app-check-internal')
           ),
           databaseIdFromApp(app, databaseId),

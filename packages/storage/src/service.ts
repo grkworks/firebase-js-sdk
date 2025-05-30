@@ -24,11 +24,7 @@ import { Provider } from '@firebase/component';
 import { FirebaseAuthInternalName } from '@firebase/auth-interop-types';
 import { AppCheckInternalComponentName } from '@firebase/app-check-interop-types';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
-  FirebaseApp,
-  FirebaseOptions,
-  _isFirebaseServerApp
-} from '@firebase/app';
+import { FirebaseApp, FirebaseOptions } from '@firebase/app';
 import {
   CONFIG_STORAGE_BUCKET_KEY,
   DEFAULT_HOST,
@@ -42,13 +38,7 @@ import {
 } from './implementation/error';
 import { validateNumber } from './implementation/type';
 import { FirebaseStorage } from './public-types';
-import {
-  createMockUserToken,
-  EmulatorMockTokenOptions,
-  isCloudWorkstation,
-  pingServer,
-  updateEmulatorBanner
-} from '@firebase/util';
+import { createMockUserToken, EmulatorMockTokenOptions } from '@firebase/util';
 import { Connection, ConnectionType } from './implementation/connection';
 
 export function isUrl(path?: string): boolean {
@@ -147,14 +137,7 @@ export function connectStorageEmulator(
   } = {}
 ): void {
   storage.host = `${host}:${port}`;
-  const useSsl = isCloudWorkstation(host);
-  // Workaround to get cookies in Firebase Studio
-  if (useSsl) {
-    void pingServer(`https://${storage.host}`);
-    updateEmulatorBanner('Storage', true);
-  }
-  storage._isUsingEmulator = true;
-  storage._protocol = useSsl ? 'https' : 'http';
+  storage._protocol = 'http';
   const { mockUserToken } = options;
   if (mockUserToken) {
     storage._overrideAuthToken =
@@ -200,8 +183,7 @@ export class FirebaseStorageImpl implements FirebaseStorage {
      * @internal
      */
     readonly _url?: string,
-    readonly _firebaseVersion?: string,
-    public _isUsingEmulator = false
+    readonly _firebaseVersion?: string
   ) {
     this._maxOperationRetryTime = DEFAULT_MAX_OPERATION_RETRY_TIME;
     this._maxUploadRetryTime = DEFAULT_MAX_UPLOAD_RETRY_TIME;
@@ -280,9 +262,6 @@ export class FirebaseStorageImpl implements FirebaseStorage {
   }
 
   async _getAppCheckToken(): Promise<string | null> {
-    if (_isFirebaseServerApp(this.app) && this.app.settings.appCheckToken) {
-      return this.app.settings.appCheckToken;
-    }
     const appCheck = this._appCheckProvider.getImmediate({ optional: true });
     if (appCheck) {
       const result = await appCheck.getToken();
@@ -334,8 +313,7 @@ export class FirebaseStorageImpl implements FirebaseStorage {
         appCheckToken,
         requestFactory,
         this._firebaseVersion,
-        retry,
-        this._isUsingEmulator
+        retry
       );
       this._requests.add(request);
       // Request removes itself from set when complete.

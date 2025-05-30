@@ -10,6 +10,7 @@
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "ignore": [
+    "firebase-namespace-integration-test",
     "firebase-firestore-integration-test",
     "firebase-messaging-integration-test",
     "firebase-compat-interop-test",

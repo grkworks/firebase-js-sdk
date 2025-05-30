@@ -207,14 +207,8 @@ describe('Firebase Storage > Upload Task', () => {
     }
 
     const fixedAssertEquals = promiseAssertWrapper(assert.equal);
-    const fixedAssertFalse: (
-      value: unknown,
-      message?: string
-    ) => asserts value is false = promiseAssertWrapper(assert.isFalse);
-    const fixedAssertTrue: (
-      value: unknown,
-      message?: string
-    ) => asserts value is true = promiseAssertWrapper(assert.isTrue);
+    const fixedAssertFalse = promiseAssertWrapper(assert.isFalse);
+    const fixedAssertTrue = promiseAssertWrapper(assert.isTrue);
     const fixedAssertFail = promiseAssertWrapper(assert.fail);
 
     const events: string[] = [];
@@ -397,14 +391,8 @@ describe('Firebase Storage > Upload Task', () => {
     }
 
     const fixedAssertEquals = promiseAssertWrapper(assert.equal);
-    const fixedAssertFalse: (
-      value: unknown,
-      message?: string
-    ) => asserts value is false = promiseAssertWrapper(assert.isFalse);
-    const fixedAssertTrue: (
-      value: unknown,
-      message?: string
-    ) => asserts value is true = promiseAssertWrapper(assert.isTrue);
+    const fixedAssertFalse = promiseAssertWrapper(assert.isFalse);
+    const fixedAssertTrue = promiseAssertWrapper(assert.isTrue);
     const fixedAssertFail = promiseAssertWrapper(assert.fail);
 
     const events: string[] = [];

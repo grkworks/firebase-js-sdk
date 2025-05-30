@@ -35,18 +35,13 @@ export type FunctionsErrorCodeCore = 'ok' | 'cancelled' | 'unknown' | 'invalid-a
 export function getFunctions(app?: FirebaseApp, regionOrCustomDomain?: string): Functions;
 
 // @public
-export interface HttpsCallable<RequestData = unknown, ResponseData = unknown, StreamData = unknown> {
-    // (undocumented)
-    (data?: RequestData | null): Promise<HttpsCallableResult<ResponseData>>;
-    // (undocumented)
-    stream: (data?: RequestData | null, options?: HttpsCallableStreamOptions) => Promise<HttpsCallableStreamResult<ResponseData, StreamData>>;
-}
+export type HttpsCallable<RequestData = unknown, ResponseData = unknown> = (data?: RequestData | null) => Promise<HttpsCallableResult<ResponseData>>;
 
 // @public
-export function httpsCallable<RequestData = unknown, ResponseData = unknown, StreamData = unknown>(functionsInstance: Functions, name: string, options?: HttpsCallableOptions): HttpsCallable<RequestData, ResponseData, StreamData>;
+export function httpsCallable<RequestData = unknown, ResponseData = unknown>(functionsInstance: Functions, name: string, options?: HttpsCallableOptions): HttpsCallable<RequestData, ResponseData>;
 
 // @public
-export function httpsCallableFromURL<RequestData = unknown, ResponseData = unknown, StreamData = unknown>(functionsInstance: Functions, url: string, options?: HttpsCallableOptions): HttpsCallable<RequestData, ResponseData, StreamData>;
+export function httpsCallableFromURL<RequestData = unknown, ResponseData = unknown>(functionsInstance: Functions, url: string, options?: HttpsCallableOptions): HttpsCallable<RequestData, ResponseData>;
 
 // @public
 export interface HttpsCallableOptions {
@@ -57,20 +52,6 @@ export interface HttpsCallableOptions {
 // @public
 export interface HttpsCallableResult<ResponseData = unknown> {
     readonly data: ResponseData;
-}
-
-// @public
-export interface HttpsCallableStreamOptions {
-    limitedUseAppCheckTokens?: boolean;
-    signal?: AbortSignal;
-}
-
-// @public
-export interface HttpsCallableStreamResult<ResponseData = unknown, StreamData = unknown> {
-    // (undocumented)
-    readonly data: Promise<ResponseData>;
-    // (undocumented)
-    readonly stream: AsyncIterable<StreamData>;
 }
 
 
