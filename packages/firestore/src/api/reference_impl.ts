@@ -757,6 +757,21 @@ export function onSnapshot<AppModelType, DbModelType extends DocumentData>(
   );
 }
 
+export interface PipelineListenOptions {
+  /**
+   * Include a change even if only the metadata of the query or of a document
+   * changed. Default is false.
+   */
+  readonly includeMetadataChanges?: boolean;
+
+  /**
+   * Set the source the query listens to. Default to "default", which
+   * listens to both cache and server.
+   */
+  readonly source?: ListenSource;
+  readonly serverTimestampBehavior?: 'estimate' | 'previous' | 'none';
+}
+
 export function onPipelineSnapshot(
   query: RealtimePipeline,
   observer: {
@@ -767,7 +782,7 @@ export function onPipelineSnapshot(
 ): Unsubscribe;
 export function onPipelineSnapshot(
   query: RealtimePipeline,
-  options: SnapshotListenOptions,
+  options: PipelineListenOptions,
   observer: {
     next?: (snapshot: RealtimePipelineSnapshot) => void;
     error?: (error: FirestoreError) => void;
@@ -782,7 +797,7 @@ export function onPipelineSnapshot(
 ): Unsubscribe;
 export function onPipelineSnapshot(
   query: RealtimePipeline,
-  options: SnapshotListenOptions,
+  options: PipelineListenOptions,
   onNext: (snapshot: RealtimePipelineSnapshot) => void,
   onError?: (error: FirestoreError) => void,
   onCompletion?: () => void
@@ -793,9 +808,10 @@ export function onPipelineSnapshot(
 ): Unsubscribe {
   reference = getModularInstance(reference);
 
-  let options: SnapshotListenOptions = {
+  let options: PipelineListenOptions = {
     includeMetadataChanges: false,
-    source: 'default'
+    source: 'default',
+    serverTimestampBehavior: 'none'
   };
   let currArg = 0;
   if (typeof args[currArg] === 'object' && !isPartialObserver(args[currArg])) {
@@ -805,7 +821,8 @@ export function onPipelineSnapshot(
 
   const internalOptions = {
     includeMetadataChanges: options.includeMetadataChanges,
-    source: options.source as ListenerDataSource
+    source: options.source as ListenerDataSource,
+    serverTimestampBehavior: options.serverTimestampBehavior
   };
 
   if (isPartialObserver(args[currArg])) {
@@ -823,12 +840,16 @@ export function onPipelineSnapshot(
 
   // RealtimePipeline
   firestore = cast(reference._db, Firestore);
-  internalQuery = toCorePipeline(reference);
+  internalQuery = toCorePipeline(reference, internalOptions);
   observer = {
     next: snapshot => {
       if (args[currArg]) {
         (args[currArg] as NextFn<RealtimePipelineSnapshot>)(
-          new RealtimePipelineSnapshot(reference as RealtimePipeline, snapshot)
+          new RealtimePipelineSnapshot(
+            reference as RealtimePipeline,
+            snapshot,
+            internalOptions
+          )
         );
       }
     },

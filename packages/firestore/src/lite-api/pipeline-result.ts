@@ -28,6 +28,7 @@ import { DocumentData, DocumentReference, refEqual } from './reference';
 import { fieldPathFromArgument } from './snapshot';
 import { Timestamp } from './timestamp';
 import { AbstractUserDataWriter } from './user_data_writer';
+import { ListenOptions } from '../core/event_manager';
 
 export class PipelineSnapshot {
   private readonly _pipeline: Pipeline;
@@ -122,7 +123,8 @@ export class PipelineResult {
     executionTime?: Timestamp,
     createTime?: Timestamp,
     updateTime?: Timestamp,
-    readonly metadata?: SnapshotMetadata
+    readonly metadata?: SnapshotMetadata,
+    readonly listenOptions?: ListenOptions
   ) {
     this._ref = ref;
     this._userDataWriter = userDataWriter;
@@ -144,7 +146,8 @@ export class PipelineResult {
     userDataWriter: AbstractUserDataWriter,
     doc: Document,
     ref?: DocumentReference,
-    metadata?: SnapshotMetadata
+    metadata?: SnapshotMetadata,
+    listenOptions?: ListenOptions
   ): PipelineResult {
     return new PipelineResult(
       userDataWriter,
@@ -153,7 +156,8 @@ export class PipelineResult {
       doc.readTime.toTimestamp(),
       doc.createTime.toTimestamp(),
       doc.version.toTimestamp(),
-      metadata
+      metadata,
+      listenOptions
     );
   }
 
@@ -219,7 +223,8 @@ export class PipelineResult {
     }
 
     return this._userDataWriter.convertValue(
-      this._fields.value
+      this._fields.value,
+      this.listenOptions?.serverTimestampBehavior
     ) as DocumentData;
   }
 
@@ -253,7 +258,10 @@ export class PipelineResult {
       fieldPathFromArgument('DocumentSnapshot.get', fieldPath)
     );
     if (value !== null) {
-      return this._userDataWriter.convertValue(value);
+      return this._userDataWriter.convertValue(
+        value,
+        this.listenOptions?.serverTimestampBehavior
+      );
     }
   }
 }
@@ -274,13 +282,16 @@ export function pipelineResultEqual(
 
 export function toPipelineResult(
   doc: Document,
-  pipeline: RealtimePipeline
+  pipeline: RealtimePipeline,
+  listenOptions?: ListenOptions
 ): PipelineResult {
   return PipelineResult.fromDocument(
     pipeline._userDataWriter,
     doc,
     doc.key.path
       ? new DocumentReference(pipeline._db, null, doc.key)
-      : undefined
+      : undefined,
+    undefined,
+    listenOptions
   );
 }
